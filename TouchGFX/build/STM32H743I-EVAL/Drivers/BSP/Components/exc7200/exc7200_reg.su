@@ -1,0 +1,2 @@
+exc7200_reg.c:48:9:exc7200_read_reg	4	static
+exc7200_reg.c:61:9:exc7200_write_reg	4	static

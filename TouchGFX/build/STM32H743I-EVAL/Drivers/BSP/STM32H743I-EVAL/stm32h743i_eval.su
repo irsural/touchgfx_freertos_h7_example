@@ -1,0 +1,17 @@
+stm32h743i_eval.c:161:9:BSP_GetVersion	0	static
+stm32h743i_eval.c:170:16:BSP_GetBoardName	0	static
+stm32h743i_eval.c:179:16:BSP_GetBoardID	0	static
+stm32h743i_eval.c:194:9:BSP_LED_Init	48	static
+stm32h743i_eval.c:257:9:BSP_LED_DeInit	32	static
+stm32h743i_eval.c:303:9:BSP_LED_On	8	static
+stm32h743i_eval.c:330:9:BSP_LED_Off	8	static
+stm32h743i_eval.c:358:9:BSP_LED_Toggle	8	static
+stm32h743i_eval.c:386:9:BSP_LED_GetState	8	static
+stm32h743i_eval.c:421:9:BSP_PB_Init	48	static
+stm32h743i_eval.c:495:9:BSP_PB_DeInit	16	static
+stm32h743i_eval.c:515:9:BSP_PB_GetState	8	static
+stm32h743i_eval.c:525:6:BSP_PB_IRQHandler	0	static
+stm32h743i_eval.c:535:13:BSP_PB_Callback	0	static
+stm32h743i_eval.c:1216:13:BUTTON_USER_EXTI_Callback	8	static
+stm32h743i_eval.c:1207:13:BUTTON_TAMPER_EXTI_Callback	8	static
+stm32h743i_eval.c:1198:13:BUTTON_WAKEUP_EXTI_Callback	8	static

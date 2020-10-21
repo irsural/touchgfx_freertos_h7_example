@@ -1,0 +1,5 @@
+stm32h743i_eval_sdram.c:170:9:BSP_SDRAM_DeInit	8	static
+stm32h743i_eval_sdram.c:198:26:MX_SDRAM_BANK2_Init	40	static
+stm32h743i_eval_sdram.c:109:9:BSP_SDRAM_Init	80	static
+stm32h743i_eval_sdram.c:312:9:BSP_SDRAM_SendCmd	8	static
+stm32h743i_eval_sdram.c:337:6:BSP_SDRAM_IRQHandler	0	static

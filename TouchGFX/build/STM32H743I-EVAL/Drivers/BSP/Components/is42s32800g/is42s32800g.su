@@ -1,0 +1,10 @@
+is42s32800g.c:102:9:IS42S32800G_ClockEnable	8	static
+is42s32800g.c:126:9:IS42S32800G_Precharge	8	static
+is42s32800g.c:150:9:IS42S32800G_ModeRegConfig	8	static
+is42s32800g.c:183:9:IS42S32800G_TimingConfig	8	static
+is42s32800g.c:204:9:IS42S32800G_RefreshMode	8	static
+is42s32800g.c:228:9:IS42S32800G_RefreshRate	8	static
+is42s32800g.c:64:9:IS42S32800G_Init	16	static
+is42s32800g.c:247:9:IS42S32800G_EnterPowerMode	8	static
+is42s32800g.c:271:9:IS42S32800G_ExitPowerMode	8	static
+is42s32800g.c:295:9:IS42S32800G_Sendcmd	8	static

@@ -1,0 +1,9 @@
+stm32h743i_eval_bus.c:227:9:BSP_I2C1_DeInit	8	static
+stm32h743i_eval_bus.c:255:26:MX_I2C1_Init	8	static
+stm32h743i_eval_bus.c:186:9:BSP_I2C1_Init	104	static
+stm32h743i_eval_bus.c:301:9:BSP_I2C1_WriteReg	24	static
+stm32h743i_eval_bus.c:332:9:BSP_I2C1_ReadReg	24	static
+stm32h743i_eval_bus.c:363:9:BSP_I2C1_WriteReg16	24	static
+stm32h743i_eval_bus.c:394:9:BSP_I2C1_ReadReg16	24	static
+stm32h743i_eval_bus.c:424:9:BSP_I2C1_IsReady	8	static
+stm32h743i_eval_bus.c:440:9:BSP_GetTick	0	static

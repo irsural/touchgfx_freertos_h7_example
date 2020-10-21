@@ -1,0 +1,2 @@
+ts3510_reg.c:48:9:ts3510_read_reg	4	static
+ts3510_reg.c:61:9:ts3510_write_reg	4	static

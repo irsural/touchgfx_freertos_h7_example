@@ -1,0 +1,15 @@
+exc7200.c:122:9:EXC7200_GetCapabilities	0	static
+exc7200.c:143:9:EXC7200_Init	8	static
+exc7200.c:169:9:EXC7200_DeInit	8	static
+exc7200.c:195:9:EXC7200_GestureConfig	0	static
+exc7200.c:275:9:EXC7200_EnableIT	0	static
+exc7200.c:370:16:ReadRegWrap	4	static
+exc7200.c:385:16:WriteRegWrap	4	static
+exc7200.c:208:9:EXC7200_ReadID	16	static
+exc7200.c:314:9:EXC7200_ClearIT	0	static
+exc7200.c:251:9:EXC7200_GetMultiTouchState	0	static
+exc7200.c:263:9:EXC7200_GetGesture	0	static
+exc7200.c:287:9:EXC7200_DisableIT	0	static
+exc7200.c:301:9:EXC7200_ITStatus	0	static
+exc7200.c:228:9:EXC7200_GetState	32	static
+exc7200.c:82:9:EXC7200_RegisterBusIO	0	static

@@ -1,0 +1,15 @@
+ts3510.c:122:9:TS3510_GetCapabilities	0	static
+ts3510.c:143:9:TS3510_Init	8	static
+ts3510.c:169:9:TS3510_DeInit	8	static
+ts3510.c:195:9:TS3510_GestureConfig	0	static
+ts3510.c:299:9:TS3510_EnableIT	0	static
+ts3510.c:398:16:ReadRegWrap	4	static
+ts3510.c:413:16:WriteRegWrap	4	static
+ts3510.c:208:9:TS3510_ReadID	24	static
+ts3510.c:237:9:TS3510_GetState	40	static
+ts3510.c:338:9:TS3510_ClearIT	0	static
+ts3510.c:275:9:TS3510_GetMultiTouchState	0	static
+ts3510.c:287:9:TS3510_GetGesture	0	static
+ts3510.c:311:9:TS3510_DisableIT	0	static
+ts3510.c:325:9:TS3510_ITStatus	0	static
+ts3510.c:82:9:TS3510_RegisterBusIO	0	static
