@@ -1,6 +1,7 @@
 # hrm ignore
 /extern_libs
 /mxsrclib
+/Middlewares
 List
 Obj
 settings

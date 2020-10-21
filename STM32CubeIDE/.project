@@ -41,32 +41,32 @@
 		<link>
 			<name>Application/User/freertos.c</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/freertos.c</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/freertos.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/main.c</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/main.c</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/main.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/stm32h7xx_hal_msp.c</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/stm32h7xx_hal_msp.c</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/stm32h7xx_hal_msp.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/stm32h7xx_hal_timebase_tim.c</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/stm32h7xx_hal_timebase_tim.c</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/stm32h7xx_hal_timebase_tim.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/stm32h7xx_it.c</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/stm32h7xx_it.c</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/stm32h7xx_it.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/CMSIS/system_stm32h7xx.c</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/system_stm32h7xx.c</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/system_stm32h7xx.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/STM32H7xx_HAL_Driver/stm32h7xx_hal.c</name>
