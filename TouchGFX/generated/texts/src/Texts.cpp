@@ -58,6 +58,11 @@ void touchgfx::LCD::drawString(touchgfx::Rect widgetArea, const touchgfx::Rect& 
 //Default typed text database
 extern const touchgfx::TypedText::TypedTextData* const typedTextDatabaseArray[];
 
+TEXT_LOCATION_FLASH_PRAGMA
+KEEP extern const touchgfx::Unicode::UnicodeChar texts_all_languages[] TEXT_LOCATION_FLASH_ATTRIBUTE =
+{
+    0 // No characters in application
+};
 
 //array holding dynamically installed languages
 struct TranslationHeader
@@ -71,9 +76,6 @@ static const TranslationHeader* languagesArray[1] = { 0 };
 //Compiled and linked in languages
 static const uint32_t* const staticLanguageIndices[] =
 {
-    0
-};
-static const touchgfx::Unicode::UnicodeChar* const staticLanguageTexts[] = {
     0
 };
 
@@ -97,7 +99,7 @@ void touchgfx::Texts::setLanguage(touchgfx::LanguageId id)
         else
         {
             //compiled and linked in languages
-            currentLanguagePtr = staticLanguageTexts[id];
+            currentLanguagePtr = texts_all_languages;
             currentLanguageIndices = staticLanguageIndices[id];
             currentLanguageTypedText = typedTextDatabaseArray[id];
         }

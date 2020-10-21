@@ -16,15 +16,15 @@
                 <debug>1</debug>
                 <option>
                     <name>ExePath</name>
-                    <state>STM32H743I-EVAL/Exe</state>
+                    <state>touchgfx_h7_template/Exe</state>
                 </option>
                 <option>
                     <name>ObjPath</name>
-                    <state>STM32H743I-EVAL/Obj</state>
+                    <state>touchgfx_h7_template/Obj</state>
                 </option>
                 <option>
                     <name>ListPath</name>
-                    <state>STM32H743I-EVAL/List</state>
+                    <state>touchgfx_h7_template/List</state>
                 </option>
                 <option>
                     <name>GEndianMode</name>
@@ -724,7 +724,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>STM32H743I-EVAL.out</state>
+                    <state>touchgfx_h7_template.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>

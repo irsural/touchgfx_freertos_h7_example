@@ -1,6 +1,5 @@
 #include "main.h"
 #include "cmsis_os.h"
-
 #include "app_touchgfx.h"
 
 #include "stm32h743i_eval_sdram.h"

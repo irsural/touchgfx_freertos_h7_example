@@ -25,7 +25,7 @@ MainViewBase::MainViewBase() :
     bg1.setXY(0, 0);
     bg1.setBitmap(touchgfx::Bitmap(BITMAP_DARK_BACKGROUNDS_MAIN_BG_PORTRAIT_272X480PX_ID));
 
-    openModal1.setXY(44, 311);
+    openModal1.setXY(97, 316);
     openModal1.setBitmaps(touchgfx::Bitmap(BITMAP_SHOW_MODAL_BUTTON_ID), touchgfx::Bitmap(BITMAP_SHOW_MODAL_BUTTON_PRESSED_ID));
     openModal1.setAction(buttonCallback);
 

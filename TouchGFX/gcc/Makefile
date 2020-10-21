@@ -11,7 +11,7 @@ makefile_name := $(wordlist 1,1000,$(MAKEFILE_LIST))
 makefile_path := $(call qs,$(dir $(call sq,$(abspath $(call sq,$(makefile_name))))))
 
 # Get path where the Application is
-application_path := $(call qs,$(abspath $(call sq,$(makefile_path)..)))
+application_path := $(call qs,$(abspath $(call sq,$(makefile_path)../..)))
 
 # Change makefile_name to a relative path
 makefile_name := $(subst $(call sq,$(application_path))/,,$(call sq,$(abspath $(call sq,$(makefile_name)))))
