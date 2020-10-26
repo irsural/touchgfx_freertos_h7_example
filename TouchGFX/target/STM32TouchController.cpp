@@ -60,7 +60,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
     }
 
     time = HAL_GetTick();
-    if (((lastTime + 120) > time)
+    if (((lastTime + 100) > time)
         && (lastX > 0) && (lastY > 0)) {
         x = lastX;
         y = lastY;

@@ -11,7 +11,9 @@ public:
     virtual ~MainView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-protected:
+private:
+  void set_random_color();
+  void start_stop_animation();
 };
 
 #endif // MAIN_VIEW_HPP

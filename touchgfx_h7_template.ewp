@@ -287,7 +287,7 @@
                 <option>
                     <name>CCAllowList</name>
                     <version>1</version>
-                    <state>11111110</state>
+                    <state>00000000</state>
                 </option>
                 <option>
                     <name>CCDebugInfo</name>
@@ -352,7 +352,6 @@
                 <option>
                     <name>CCIncludePath2</name>
                     <state>$PROJ_DIR$/Core</state>
-                    <state>$PROJ_DIR$/TouchGFX/App</state>
                     <state>$PROJ_DIR$/TouchGFX/target/generated</state>
                     <state>$PROJ_DIR$/TouchGFX/generated/texts/include</state>
                     <state>$PROJ_DIR$/TouchGFX/generated/fonts/include</state>
@@ -385,7 +384,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>3</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -394,7 +393,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>3</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -1258,15 +1257,6 @@
     <group>
         <name>TouchGFX</name>
         <group>
-            <name>App</name>
-            <file>
-                <name>$PROJ_DIR$\TouchGFX\App\app_touchgfx.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\TouchGFX\App\app_touchgfx.h</name>
-            </file>
-        </group>
-        <group>
             <name>fonts</name>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\ApplicationFontProvider.cpp</name>
@@ -1344,13 +1334,22 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_background.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_Edge_small.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_Edge_small_pressed.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_highlight.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_normal.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_close_button.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_close_button_pressed.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Dark_Backgrounds_main_bg_portrait_272x480px.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_info_icon.cpp</name>
@@ -1461,13 +1460,25 @@
         <group>
             <name>Core</name>
             <file>
+                <name>$PROJ_DIR$\Core\app.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\app.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\cfg.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\defs.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\Core\freertos.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Core\main.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\Core\main.h</name>
+                <name>$PROJ_DIR$\Core\main.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Core\stm32h7xx_hal_msp.c</name>
@@ -1476,7 +1487,7 @@
                 <name>$PROJ_DIR$\Core\stm32h7xx_hal_timebase_tim.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Core\stm32h7xx_it.c</name>
+                <name>$PROJ_DIR$\Core\stm32h7xx_it.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Core\stm32h7xx_it.h</name>

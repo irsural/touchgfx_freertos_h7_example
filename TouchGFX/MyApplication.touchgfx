@@ -6,98 +6,16 @@
           {
             "Type": "Box",
             "Color": {
-              "Red": 0,
-              "Green": 0,
-              "Blue": 0
+              "Red": 76,
+              "Green": 115,
+              "Blue": 240
             },
             "Alpha": 255,
             "Name": "backgroundBox",
             "X": 0,
             "Y": 0,
-            "Width": 800,
+            "Width": 640,
             "Height": 480,
-            "Visible": false,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Type": "Image",
-            "RelativeFilename": "__designer\\Dark_Backgrounds_main_bg_portrait_272x480px.png",
-            "Alpha": 255,
-            "Name": "bg3",
-            "X": 544,
-            "Y": 0,
-            "Width": 272,
-            "Height": 480,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Type": "Image",
-            "RelativeFilename": "__designer\\Dark_Backgrounds_main_bg_portrait_272x480px.png",
-            "Alpha": 255,
-            "Name": "bg2",
-            "X": 272,
-            "Y": 0,
-            "Width": 272,
-            "Height": 480,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Type": "Image",
-            "RelativeFilename": "__designer\\Dark_Backgrounds_main_bg_portrait_272x480px.png",
-            "Alpha": 255,
-            "Name": "bg1",
-            "X": 0,
-            "Y": 0,
-            "Width": 272,
-            "Height": 480,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Type": "Button",
-            "Pressed": "show_modal_button_pressed.png",
-            "Released": "show_modal_button.png",
-            "Alpha": 255,
-            "Name": "openModal1",
-            "X": 97,
-            "Y": 316,
-            "Width": 130,
-            "Height": 56,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Type": "Button",
-            "Pressed": "show_my_modal_button_pressed.png",
-            "Released": "show_my_modal_button.png",
-            "Alpha": 255,
-            "Name": "openMyModal",
-            "X": 479,
-            "Y": 298,
-            "Width": 130,
-            "Height": 56,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -108,14 +26,31 @@
           {
             "Components": [
               {
-                "Type": "Image",
-                "RelativeFilename": "info_icon.png",
-                "Alpha": 255,
-                "Name": "infoImage",
-                "X": 120,
-                "Y": 34,
-                "Width": 100,
-                "Height": 100,
+                "Components": [
+                  {
+                    "Type": "Image",
+                    "RelativeFilename": "close_button.png",
+                    "Alpha": 255,
+                    "Name": "image2",
+                    "X": 50,
+                    "Y": 72,
+                    "Width": 130,
+                    "Height": 56,
+                    "Visible": true,
+                    "LockPosition": false,
+                    "Draggable": false,
+                    "Clickable": false,
+                    "Fadeable": false,
+                    "Moveable": false
+                  }
+                ],
+                "Type": "Container",
+                "IsCacheableContainer": false,
+                "Name": "swipeContainer1Page2",
+                "X": 0,
+                "Y": 0,
+                "Width": 231,
+                "Height": 201,
                 "Visible": true,
                 "LockPosition": false,
                 "Draggable": false,
@@ -124,15 +59,33 @@
                 "Moveable": false
               },
               {
-                "Type": "Button",
-                "Pressed": "close_button_pressed.png",
-                "Released": "close_button.png",
-                "Alpha": 255,
-                "Name": "closeMyModal",
-                "X": 175,
-                "Y": 166,
-                "Width": 130,
-                "Height": 56,
+                "Components": [
+                  {
+                    "Type": "Button",
+                    "Pressed": "__designer\\Blue_Buttons_Round_Edge_small_pressed.png",
+                    "Released": "__designer\\Blue_Buttons_Round_Edge_small.png",
+                    "Alpha": 255,
+                    "Style": "Style4",
+                    "Name": "button1",
+                    "X": 30,
+                    "Y": 70,
+                    "Width": 170,
+                    "Height": 60,
+                    "Visible": true,
+                    "LockPosition": false,
+                    "Draggable": false,
+                    "Clickable": false,
+                    "Fadeable": false,
+                    "Moveable": false
+                  }
+                ],
+                "Type": "Container",
+                "IsCacheableContainer": false,
+                "Name": "swipeContainer1Page1",
+                "X": 0,
+                "Y": 0,
+                "Width": 231,
+                "Height": 201,
                 "Visible": true,
                 "LockPosition": false,
                 "Draggable": false,
@@ -141,72 +94,23 @@
                 "Moveable": false
               }
             ],
-            "Type": "ModalWindow",
-            "FileName": "my_modal_background.png",
-            "Color": {
-              "Red": 0,
-              "Green": 0,
-              "Blue": 0
-            },
-            "ModalX": 70,
-            "ModalY": 16,
-            "ModalWidth": 340,
-            "ModalHeight": 240,
-            "ContX": 0,
-            "ContY": 0,
-            "Alpha": 150,
-            "Name": "myModal",
-            "X": 0,
-            "Y": 0,
-            "Width": 640,
-            "Height": 480,
-            "Visible": false,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Components": [
-              {
-                "Type": "Button",
-                "Pressed": "close_button_pressed.png",
-                "Released": "close_button.png",
-                "Alpha": 255,
-                "Name": "closeModal1",
-                "X": 155,
-                "Y": 130,
-                "Width": 130,
-                "Height": 56,
-                "Visible": true,
-                "LockPosition": false,
-                "Draggable": false,
-                "Clickable": false,
-                "Fadeable": false,
-                "Moveable": false
-              }
-            ],
-            "Type": "ModalWindow",
-            "FileName": "modal_background.png",
-            "Color": {
-              "Red": 0,
-              "Green": 0,
-              "Blue": 0
-            },
-            "ModalX": 90,
-            "ModalY": 36,
-            "ModalWidth": 300,
-            "ModalHeight": 200,
-            "ContX": 0,
-            "ContY": 0,
-            "Alpha": 150,
-            "Name": "modal1",
-            "X": 0,
-            "Y": 0,
-            "Width": 640,
-            "Height": 480,
-            "Visible": false,
+            "Type": "SwipeContainer",
+            "SwipeCutoff": 50,
+            "ShowPageIndicator": false,
+            "PageIndicatorX": 0,
+            "PageIndicatorY": 0,
+            "CenteredX": false,
+            "IndicatorImageNormal": "__designer\\Blue_PageIndicator_dot_indicator_small_normal.png",
+            "IndicatorImageHighlight": "__designer\\Blue_PageIndicator_dot_indicator_small_highlight.png",
+            "EndSwipeElasticWidth": 1,
+            "SelectedPage": "swipeContainer1Page1",
+            "Style": "Style1",
+            "Name": "swipeContainer1",
+            "X": 205,
+            "Y": 140,
+            "Width": 231,
+            "Height": 201,
+            "Visible": true,
             "LockPosition": false,
             "Draggable": false,
             "Clickable": false,
@@ -216,51 +120,27 @@
         ],
         "Interactions": [
           {
-            "InteractionName": "OpenModal1",
+            "InteractionName": "Interaction1",
             "HasCompletedTrigger": false,
             "Trigger": {
               "Type": "TriggerClicked",
-              "TriggerComponent": "openModal1"
+              "TriggerComponent": "button1"
             },
             "Action": {
-              "Type": "ActionShow",
-              "ActionComponent": "modal1"
+              "Type": "ActionCustom",
+              "FunctionName": "set_random_color"
             }
           },
           {
-            "InteractionName": "CloseModal1",
+            "InteractionName": "start_stop_animation_int",
             "HasCompletedTrigger": false,
             "Trigger": {
               "Type": "TriggerClicked",
-              "TriggerComponent": "closeModal1"
+              "TriggerComponent": "button1"
             },
             "Action": {
-              "Type": "ActionHide",
-              "ActionComponent": "modal1"
-            }
-          },
-          {
-            "InteractionName": "OpenMyModal",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "openMyModal"
-            },
-            "Action": {
-              "Type": "ActionShow",
-              "ActionComponent": "myModal"
-            }
-          },
-          {
-            "InteractionName": "CloseMyModal",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "closeMyModal"
-            },
-            "Action": {
-              "Type": "ActionHide",
-              "ActionComponent": "myModal"
+              "Type": "ActionCustom",
+              "FunctionName": "start_stop_animation"
             }
           }
         ],

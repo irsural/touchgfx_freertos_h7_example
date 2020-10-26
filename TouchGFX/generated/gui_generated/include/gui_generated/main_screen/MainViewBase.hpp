@@ -8,10 +8,10 @@
 #include <mvp/View.hpp>
 #include <gui/main_screen/MainPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/containers/SwipeContainer.hpp>
+#include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/Button.hpp>
-#include <touchgfx/containers/ModalWindow.hpp>
-#include <touchgfx/Color.hpp>
 
 class MainViewBase : public touchgfx::View<MainPresenter>
 {
@@ -19,6 +19,19 @@ public:
     MainViewBase();
     virtual ~MainViewBase() {}
     virtual void setupScreen();
+
+    /*
+     * Virtual Action Handlers
+     */
+    virtual void set_random_color()
+    {
+        // Override and implement this function in Main
+    }
+
+    virtual void start_stop_animation()
+    {
+        // Override and implement this function in Main
+    }
 
 protected:
     FrontendApplication& application() {
@@ -30,16 +43,11 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Box backgroundBox;
-    touchgfx::Image bg3;
-    touchgfx::Image bg2;
-    touchgfx::Image bg1;
-    touchgfx::Button openModal1;
-    touchgfx::Button openMyModal;
-    touchgfx::ModalWindow myModal;
-    touchgfx::Image infoImage;
-    touchgfx::Button closeMyModal;
-    touchgfx::ModalWindow modal1;
-    touchgfx::Button closeModal1;
+    touchgfx::SwipeContainer swipeContainer1;
+    touchgfx::Container swipeContainer1Page2;
+    touchgfx::Image image2;
+    touchgfx::Container swipeContainer1Page1;
+    touchgfx::Button button1;
 
 private:
 

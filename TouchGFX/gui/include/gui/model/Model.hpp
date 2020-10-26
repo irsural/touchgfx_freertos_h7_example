@@ -2,6 +2,7 @@
 #define MODEL_HPP
 
 #include <touchgfx/Utils.hpp>
+#include <sstream>
 
 class ModelListener;
 
@@ -42,6 +43,7 @@ protected:
      * Pointer to the currently active presenter.
      */
     ModelListener* modelListener;
+    std::string m_debug_str;
 };
 
 #endif /* MODEL_HPP */

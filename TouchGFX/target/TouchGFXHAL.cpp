@@ -66,6 +66,7 @@ void TouchGFXHAL::taskEntry()
 
     for (;;)
     {
+      
         OSWrappers::waitForVSync();
         backPorchExited();
     }

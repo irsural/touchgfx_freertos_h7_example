@@ -29,7 +29,6 @@
 
 /* USER CODE BEGIN TouchGFXGPIO.cpp */
 #include "stm32h7xx.h"
-#include "main.h"
 
 /* USER CODE BEGIN user includes */
 

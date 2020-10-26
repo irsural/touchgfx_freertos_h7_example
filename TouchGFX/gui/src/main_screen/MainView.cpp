@@ -1,15 +1,8 @@
 #include <gui/main_screen/MainView.hpp>
+#include <touchgfx/Color.hpp>
 
 MainView::MainView()
 {
-    // Support of larger displays for this example
-    // is handled by showing a black box in the
-    // unused part of the display.
-    if (HAL::DISPLAY_WIDTH > bg3.getWidth() ||
-            HAL::DISPLAY_HEIGHT > bg3.getHeight())
-    {
-        backgroundBox.setVisible(true);
-    }
 }
 
 void MainView::setupScreen()
@@ -17,5 +10,15 @@ void MainView::setupScreen()
 }
 
 void MainView::tearDownScreen()
+{
+}
+
+void MainView::set_random_color()
+{
+  backgroundBox.setColor(touchgfx::Color::getColorFrom24BitRGB(rand()&0xff, rand()&0xff, rand()&0xff));
+  backgroundBox.invalidate();
+}
+
+void MainView::start_stop_animation()
 {
 }

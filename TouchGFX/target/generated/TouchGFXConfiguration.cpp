@@ -44,7 +44,10 @@ void touchgfx_init()
 
   FrontendHeap& heap = FrontendHeap::getInstance();
   (void)heap; // we need to obtain the reference above to initialize the frontend heap.
-
+  
+  hal.setFrameRateCompensation(true);
+  hal.lockDMAToFrontPorch(false);
+  
   hal.initialize();
 }
 
