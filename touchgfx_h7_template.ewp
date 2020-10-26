@@ -1289,6 +1289,9 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Kerning_verdana_40_4bpp.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\texts\src\LanguageGb.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Table_verdana_10_4bpp.cpp</name>
             </file>
             <file>
@@ -1303,6 +1306,9 @@
         </group>
         <group>
             <name>gui</name>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\src\containers\CustomContainer1.cpp</name>
+            </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\gui\src\common\FrontendApplication.cpp</name>
             </file>
@@ -1319,10 +1325,25 @@
         <group>
             <name>gui_generated</name>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\containers\CustomContainer1Base.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\common\FrontendApplicationBase.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\common\FrontendApplicationBase.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\common\FrontendHeapBase.hpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\main_screen\MainViewBase.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\main_screen\MainViewBase.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\common\SimConstants.hpp</name>
             </file>
         </group>
         <group>
@@ -1338,6 +1359,18 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_Edge_small_pressed.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Clocks_Backgrounds_clock_standard_background.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Clocks_Hands_clock_standard_hour_hand.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Clocks_Hands_clock_standard_minute_hand.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Clocks_Hands_clock_standard_second_hand.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_highlight.cpp</name>

@@ -9,6 +9,7 @@ private:
   cfg_t *mp_cfg;
 public:
     app_t();
+    void tick();
 };
 
 #endif // APP_H

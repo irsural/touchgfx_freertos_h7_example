@@ -106,10 +106,112 @@
             "SelectedPage": "swipeContainer1Page1",
             "Style": "Style1",
             "Name": "swipeContainer1",
-            "X": 205,
-            "Y": 140,
+            "X": 244,
+            "Y": 0,
             "Width": 231,
             "Height": 201,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "AnalogClock",
+            "FileNameBackground": "__designer\\Blue_Clocks_Backgrounds_clock_standard_background.png",
+            "RotationCenterX": 116,
+            "RotationCenterY": 116,
+            "Style": "Style1",
+            "UseAnimation": true,
+            "Duration": 0,
+            "Easing": "Back",
+            "EasingOption": "Out",
+            "ClockHands": [
+              {
+                "Type": "MinuteClockHand",
+                "FileNameHandImage": "__designer\\Blue_Clocks_Hands_clock_standard_minute_hand.png",
+                "RotationCenterX": 7,
+                "RotationCenterY": 67,
+                "MinuteHandSecondCorrection": false
+              },
+              {
+                "Type": "SecondClockHand",
+                "FileNameHandImage": "__designer\\Blue_Clocks_Hands_clock_standard_second_hand.png",
+                "RotationCenterX": 3,
+                "RotationCenterY": 66
+              },
+              {
+                "Type": "HourClockHand",
+                "FileNameHandImage": "__designer\\Blue_Clocks_Hands_clock_standard_hour_hand.png",
+                "RotationCenterX": 7,
+                "RotationCenterY": 52,
+                "HourHandMinuteCorrection": false
+              }
+            ],
+            "UseAmPm": false,
+            "InitialHour": 10,
+            "InitialMinute": 10,
+            "InitialSecond": 0,
+            "Name": "analogClock1",
+            "X": 26,
+            "Y": 80,
+            "Width": 233,
+            "Height": 243,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "DigitalClock",
+            "TextColor": {
+              "Red": 0,
+              "Green": 0,
+              "Blue": 0
+            },
+            "TextId": "SingleUseId1",
+            "DisplaySeconds": true,
+            "DisplayLeadingZeroForHourIndicator": true,
+            "Alpha": 255,
+            "UseAmPm": false,
+            "InitialHour": 10,
+            "InitialMinute": 10,
+            "InitialSecond": 0,
+            "Name": "digitalClock1",
+            "X": 500,
+            "Y": 91,
+            "Width": 100,
+            "Height": 25,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "ScrollList",
+            "PaddingBefore": 0,
+            "PaddingAfter": 0,
+            "Snapping": false,
+            "IsHorizontal": false,
+            "IsCircular": true,
+            "ItemTemplateName": "CustomContainer1",
+            "NumberofItems": 20,
+            "InitialElement": 0,
+            "ItemMargin": 0,
+            "Easing": "Back",
+            "EasingOption": "Out",
+            "SwipeAcceleration": 1.0,
+            "DragAcceleration": 1.0,
+            "Name": "scrollList1",
+            "X": 320,
+            "Y": 258,
+            "Width": 98,
+            "Height": 126,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -149,7 +251,56 @@
         "CanvasBufferSize": 0
       }
     ],
-    "CustomContainerDefinitions": [],
+    "CustomContainerDefinitions": [
+      {
+        "Components": [
+          {
+            "Type": "TextArea",
+            "TextId": "SingleUseId7",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 0,
+              "Green": 0,
+              "Blue": 0
+            },
+            "Alpha": 255,
+            "AutoSize": true,
+            "LineSpacing": 0,
+            "Wildcard1": {
+              "UseBuffer": false,
+              "BufferSize": 0
+            },
+            "Name": "textArea1",
+            "X": 0,
+            "Y": 0,
+            "Width": 98,
+            "Height": 25,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [],
+        "Name": "CustomContainer1",
+        "X": 0,
+        "Y": 0,
+        "Width": 98,
+        "Height": 25
+      }
+    ],
+    "TextEntries": [
+      {
+        "TextEntryId": "SingleUseId1",
+        "IsResource": false
+      },
+      {
+        "TextEntryId": "SingleUseId7",
+        "IsResource": false
+      }
+    ],
     "Name": "STM32H743I-EVAL",
     "Resolution": {
       "Width": 640,

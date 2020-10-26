@@ -4,9 +4,11 @@
 #include <gui_generated/main_screen/MainViewBase.hpp>
 #include <touchgfx/Color.hpp>
 #include "BitmapDatabase.hpp"
+#include <texts/TextKeysAndLanguages.hpp>
 
 MainViewBase::MainViewBase() :
-    buttonCallback(this, &MainViewBase::buttonCallbackHandler)
+    buttonCallback(this, &MainViewBase::buttonCallbackHandler),
+    updateItemCallback(this, &MainViewBase::updateItemCallbackHandler)
 {
 
     __background.setPosition(0, 0, 640, 480);
@@ -15,7 +17,7 @@ MainViewBase::MainViewBase() :
     backgroundBox.setPosition(0, 0, 640, 480);
     backgroundBox.setColor(touchgfx::Color::getColorFrom24BitRGB(76, 115, 240));
 
-    swipeContainer1.setXY(205, 140);
+    swipeContainer1.setXY(244, 0);
     swipeContainer1.setSwipeCutoff(50);
     swipeContainer1.setEndSwipeElasticWidth(1);
 
@@ -37,14 +39,50 @@ MainViewBase::MainViewBase() :
     swipeContainer1.add(swipeContainer1Page1);
     swipeContainer1.setSelectedPage(1);
 
+    analogClock1.setXY(11, 0);
+    analogClock1.setBackground(BITMAP_BLUE_CLOCKS_BACKGROUNDS_CLOCK_STANDARD_BACKGROUND_ID, 116, 116);
+    analogClock1.setupHourHand(BITMAP_BLUE_CLOCKS_HANDS_CLOCK_STANDARD_HOUR_HAND_ID, 7, 52);
+    analogClock1.setHourHandMinuteCorrection(false);
+    analogClock1.setupSecondHand(BITMAP_BLUE_CLOCKS_HANDS_CLOCK_STANDARD_SECOND_HAND_ID, 3, 66);
+    analogClock1.setupMinuteHand(BITMAP_BLUE_CLOCKS_HANDS_CLOCK_STANDARD_MINUTE_HAND_ID, 7, 67);
+    analogClock1.setMinuteHandSecondCorrection(false);
+    analogClock1.initializeTime24Hour(10, 10, 0);
+    analogClock1.setAnimation(0, touchgfx::EasingEquations::backEaseOut);
+
+    digitalClock1.setPosition(500, 91, 100, 25);
+    digitalClock1.setColor(touchgfx::Color::getColorFrom24BitRGB(0, 0, 0));
+    digitalClock1.setTypedText(touchgfx::TypedText(T_SINGLEUSEID1));
+    digitalClock1.displayLeadingZeroForHourIndicator(true);
+    digitalClock1.setDisplayMode(touchgfx::DigitalClock::DISPLAY_24_HOUR);
+    digitalClock1.setTime24Hour(10, 10, 0);
+
+    scrollList1.setPosition(320, 258, 98, 126);
+    scrollList1.setHorizontal(false);
+    scrollList1.setCircular(true);
+    scrollList1.setEasingEquation(touchgfx::EasingEquations::backEaseOut);
+    scrollList1.setSwipeAcceleration(10);
+    scrollList1.setDragAcceleration(10);
+    scrollList1.setNumberOfItems(20);
+    scrollList1.setPadding(0, 0);
+    scrollList1.setSnapping(false);
+    scrollList1.setDrawableSize(25, 0);
+    scrollList1.setDrawables(scrollList1ListItems, updateItemCallback);
+
     add(__background);
     add(backgroundBox);
     add(swipeContainer1);
+    add(analogClock1);
+    add(digitalClock1);
+    add(scrollList1);
 }
 
 void MainViewBase::setupScreen()
 {
-
+    scrollList1.initialize();
+    for (int i = 0; i < scrollList1ListItems.getNumberOfDrawables(); i++)
+    {
+        scrollList1ListItems[i].initialize();
+    }
 }
 
 void MainViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
@@ -60,5 +98,15 @@ void MainViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
         //When button1 clicked call virtual function
         //Call start_stop_animation
         start_stop_animation();
+    }
+}
+
+void MainViewBase::updateItemCallbackHandler(touchgfx::DrawableListItemsInterface* items, int16_t containerIndex, int16_t itemIndex)
+{
+    if (items == &scrollList1ListItems)
+    {
+        touchgfx::Drawable* d = items->getDrawable(containerIndex);
+        CustomContainer1* cc = (CustomContainer1*)d;
+        scrollList1UpdateItem(*cc, itemIndex);
     }
 }

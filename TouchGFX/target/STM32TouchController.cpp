@@ -50,6 +50,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 {
     TS_State_t state;
     unsigned int time;
+    
     BSP_TS_GetState(0, &state);
     if (state.TouchDetected)
     {
@@ -60,8 +61,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
     }
 
     time = HAL_GetTick();
-    if (((lastTime + 100) > time)
-        && (lastX > 0) && (lastY > 0)) {
+    if (((lastTime + 120) > time) && (lastX > 0) && (lastY > 0)) {
         x = lastX;
         y = lastY;
         return true;

@@ -17,7 +17,9 @@ int main(void)
   
   app_t app = app_t();
   
-  while (1) { }
+  while (1) { 
+    app.tick();
+  }
 }
 
 void SystemClock_Config()
@@ -79,7 +81,7 @@ void SystemClock_Config()
   PeriphClkInitStruct.PLL3.PLL3N = 160;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
   PeriphClkInitStruct.PLL3.PLL3Q = 2;
-  PeriphClkInitStruct.PLL3.PLL3R = 16;
+  PeriphClkInitStruct.PLL3.PLL3R = 32;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;

@@ -18,27 +18,16 @@
 #include <stm32h7xx_hal.h>
 #include <touchgfx/hal/HAL.hpp>
 #include <assert.h>
-#include <cmsis_os2.h>
-
-static osSemaphoreId_t frame_buffer_sem = 0;
-static osMessageQueueId_t vsync_queue = 0;
-
-// Just a dummy value to insert in the VSYNC queue.
-static uint32_t dummy = 0x5a;
 
 using namespace touchgfx;
 
-/*
- * Initialize frame buffer semaphore and queue/mutex for VSYNC signal.
- */
+static volatile uint32_t fb_sem;
+static volatile uint32_t vsync_sem;
+
 void OSWrappers::initialize()
 {
-    // Create a queue of length 1
-    frame_buffer_sem = osSemaphoreNew(1, 1, NULL); // Binary semaphore
-    osSemaphoreAcquire(frame_buffer_sem, osWaitForever); // take the lock
-
-    // Create a queue of length 1
-    vsync_queue = osMessageQueueNew(1, 4, NULL);
+  fb_sem = 0;
+  vsync_sem = 0;
 }
 
 /*
@@ -46,8 +35,8 @@ void OSWrappers::initialize()
  */
 void OSWrappers::takeFrameBufferSemaphore()
 {
-    assert(frame_buffer_sem);
-    osSemaphoreAcquire(frame_buffer_sem, osWaitForever);
+  while(fb_sem);
+  fb_sem = 1;
 }
 
 /*
@@ -55,8 +44,7 @@ void OSWrappers::takeFrameBufferSemaphore()
  */
 void OSWrappers::giveFrameBufferSemaphore()
 {
-    assert(frame_buffer_sem);
-    osSemaphoreRelease(frame_buffer_sem);
+  fb_sem = 0;
 }
 
 /*
@@ -68,8 +56,7 @@ void OSWrappers::giveFrameBufferSemaphore()
  */
 void OSWrappers::tryTakeFrameBufferSemaphore()
 {
-    assert(frame_buffer_sem);
-    osSemaphoreAcquire(frame_buffer_sem, 0);
+  fb_sem = 1;
 }
 
 /*
@@ -81,8 +68,7 @@ void OSWrappers::tryTakeFrameBufferSemaphore()
  */
 void OSWrappers::giveFrameBufferSemaphoreFromISR()
 {
-    assert(frame_buffer_sem);
-    osSemaphoreRelease(frame_buffer_sem);
+  fb_sem = 0;
 }
 
 /*
@@ -93,10 +79,17 @@ void OSWrappers::giveFrameBufferSemaphoreFromISR()
  */
 void OSWrappers::signalVSync()
 {
-    if (vsync_queue)
-    {
-        osMessageQueuePut(vsync_queue, &dummy, 0, 0);
-    }
+  vsync_sem = 1;
+}
+
+bool OSWrappers::isVSyncAvailable()
+{
+  return static_cast<bool>(vsync_sem);
+}
+
+void OSWrappers::signalRenderingDone()
+{
+  vsync_sem = 0;
 }
 
 /*
@@ -107,15 +100,8 @@ void OSWrappers::signalVSync()
  */
 void OSWrappers::waitForVSync()
 {
-    if (vsync_queue)
-    {
-      uint32_t dummyGet;
-      // First make sure the queue is empty, by trying to remove an element with 0 timeout.
-      osMessageQueueGet(vsync_queue, &dummyGet, 0, 0);
-
-      // Then, wait for next VSYNC to occur.
-      osMessageQueueGet(vsync_queue, &dummyGet, 0, osWaitForever);
-    }
+  vsync_sem = 0;
+  while(!vsync_sem);
 }
 
 /*
@@ -133,7 +119,7 @@ void OSWrappers::waitForVSync()
  */
 void OSWrappers::taskDelay(uint16_t ms)
 {
-    osDelay(static_cast<uint32_t>(ms));
+    HAL_Delay(static_cast<uint32_t>(ms));
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -12,6 +12,10 @@
 #include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/Button.hpp>
+#include <touchgfx/containers/clock/AnalogClock.hpp>
+#include <touchgfx/containers/clock/DigitalClock.hpp>
+#include <touchgfx/containers/scrollers/ScrollList.hpp>
+#include <gui/containers/CustomContainer1.hpp>
 
 class MainViewBase : public touchgfx::View<MainPresenter>
 {
@@ -19,6 +23,11 @@ public:
     MainViewBase();
     virtual ~MainViewBase() {}
     virtual void setupScreen();
+
+    virtual void scrollList1UpdateItem(CustomContainer1& item, int16_t itemIndex)
+    {
+        // Override and implement this function in Main
+    }
 
     /*
      * Virtual Action Handlers
@@ -48,6 +57,10 @@ protected:
     touchgfx::Image image2;
     touchgfx::Container swipeContainer1Page1;
     touchgfx::Button button1;
+    touchgfx::AnalogClock analogClock1;
+    touchgfx::DigitalClock digitalClock1;
+    touchgfx::ScrollList scrollList1;
+    touchgfx::DrawableListItems<CustomContainer1, 6> scrollList1ListItems;
 
 private:
 
@@ -55,11 +68,13 @@ private:
      * Callback Declarations
      */
     touchgfx::Callback<MainViewBase, const touchgfx::AbstractButton&> buttonCallback;
+    touchgfx::Callback<MainViewBase, touchgfx::DrawableListItemsInterface*, int16_t, int16_t> updateItemCallback;
 
     /*
      * Callback Handler Declarations
      */
     void buttonCallbackHandler(const touchgfx::AbstractButton& src);
+    void updateItemCallbackHandler(touchgfx::DrawableListItemsInterface* items, int16_t containerIndex, int16_t itemIndex);
 
 };
 
