@@ -160,17 +160,35 @@
     <Filter Include="Source Files\gui\model">
       <UniqueIdentifier>F22E888F-1536-EE5A-28E4-43FD214B570C</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\generated\gui_generated\main_screen">
-      <UniqueIdentifier>FAB0EFB6-90FD-2FA8-2D57-995360F044B9</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\generated\gui_generated\main_screen">
-      <UniqueIdentifier>32E0B56A-EE87-17BC-F7D2-2F8989D9CCFF</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\generated\gui_generated\common">
       <UniqueIdentifier>EB02C937-EBED-A452-CD9E-AAA43EC275DA</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\generated\gui_generated\common">
       <UniqueIdentifier>956FCA87-D852-42F8-377A-0329EA08BEBC</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\containers">
+      <UniqueIdentifier>C414FDAB-46E3-BF15-5B52-B63389DD66EE</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\containers">
+      <UniqueIdentifier>6519477C-637D-561F-663A-93FF074E855D</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\generated\gui_generated\containers">
+      <UniqueIdentifier>E93247DC-808F-E231-1595-5EEFE47FE544</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\generated\gui_generated\containers">
+      <UniqueIdentifier>B75EB593-C3AD-CC52-0039-E55C2384ECAC</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\audioplayer_screen">
+      <UniqueIdentifier>F8924875-8BA9-5C22-6FCF-7DEE991B6A20</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\audioplayer_screen">
+      <UniqueIdentifier>111E57C3-7AC7-0EEE-D255-A4A611D62B0F</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\generated\gui_generated\audioplayer_screen">
+      <UniqueIdentifier>A6B9CAA6-7E68-93EB-6E88-635EF83790D5</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\generated\gui_generated\audioplayer_screen">
+      <UniqueIdentifier>00D4566F-15AC-D31E-4A52-C724089169BC</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -198,17 +216,38 @@
     <ClCompile Include="..\..\generated\gui_generated\src\common\FrontendApplicationBase.cpp">
       <Filter>Source Files\generated\gui_generated\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gui\src\main_screen\MainPresenter.cpp">
-      <Filter>Source Files\gui\main_screen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\gui\src\main_screen\MainView.cpp">
       <Filter>Source Files\gui\main_screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\gui_generated\src\main_screen\MainViewBase.cpp">
-      <Filter>Source Files\generated\gui_generated\main_screen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\gui\src\model\Model.cpp">
       <Filter>Source Files\gui\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\containers\TextContainer.cpp">
+      <Filter>Source Files\gui\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\TextContainerBase.cpp">
+      <Filter>Source Files\generated\gui_generated\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\audioplayer_screen\AudioPlayerPresenter.cpp">
+      <Filter>Source Files\gui\audioplayer_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\audioplayer_screen\AudioPlayerView.cpp">
+      <Filter>Source Files\gui\audioplayer_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\audioplayer_screen\AudioPlayerViewBase.cpp">
+      <Filter>Source Files\generated\gui_generated\audioplayer_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\containers\ItemsListContainer.cpp">
+      <Filter>Source Files\gui\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\ItemsListContainerBase.cpp">
+      <Filter>Source Files\generated\gui_generated\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\containers\TextWithImageContainer.cpp">
+      <Filter>Source Files\gui\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\TextWithImageContainerBase.cpp">
+      <Filter>Source Files\generated\gui_generated\containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -640,9 +679,6 @@
     <ClInclude Include="..\..\gui\include\gui\main_screen\MainView.hpp">
       <Filter>Header Files\gui\main_screen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\main_screen\MainViewBase.hpp">
-      <Filter>Header Files\generated\gui_generated\main_screen</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\model\Model.hpp">
       <Filter>Header Files\gui\model</Filter>
     </ClInclude>
@@ -651,6 +687,33 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\common\SimConstants.hpp">
       <Filter>Header Files\generated\gui_generated\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\containers\TextContainer.hpp">
+      <Filter>Header Files\gui\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\TextContainerBase.hpp">
+      <Filter>Header Files\generated\gui_generated\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\audioplayer_screen\AudioPlayerPresenter.hpp">
+      <Filter>Header Files\gui\audioplayer_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\audioplayer_screen\AudioPlayerView.hpp">
+      <Filter>Header Files\gui\audioplayer_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\audioplayer_screen\AudioPlayerViewBase.hpp">
+      <Filter>Header Files\generated\gui_generated\audioplayer_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\containers\ItemsListContainer.hpp">
+      <Filter>Header Files\gui\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\ItemsListContainerBase.hpp">
+      <Filter>Header Files\generated\gui_generated\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\containers\TextWithImageContainer.hpp">
+      <Filter>Header Files\gui\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\TextWithImageContainerBase.hpp">
+      <Filter>Header Files\generated\gui_generated\containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

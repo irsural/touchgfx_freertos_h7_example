@@ -2,6 +2,7 @@
 
 #include <stm32h743i_eval_sdram.h>
 #include <stm32h743i_eval_qspi.h>
+#include "file_operations.h"
 
 cfg_t::cfg_t() :
   m_lcd_vsync_pin_port(std::make_tuple(GPIO_PIN_10, GPIOF)),
@@ -10,7 +11,8 @@ cfg_t::cfg_t() :
   m_lcd_render_time_pin_port(std::make_tuple(GPIO_PIN_4, GPIOF)),
   m_ltd_handle{ 0 },
   m_dma2d_handle{ 0 },
-  m_qspi_handle{ 0 }
+  m_qspi_handle{ 0 },
+  sd_detected(false)
 {
   gpio_init();
   crc_init();
@@ -18,6 +20,7 @@ cfg_t::cfg_t() :
   fmc_init();
   dma2d_init();
   qspi_init();
+  sd_init();
 }
 
 void cfg_t::gpio_init()
@@ -44,9 +47,9 @@ void cfg_t::crc_init()
   hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
   hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
   hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
-  
+
   __HAL_RCC_CRC_CLK_ENABLE();
-  
+
   if (HAL_CRC_Init(&hcrc) != HAL_OK) {
     DBG_MSG("CRC init error!!");
   }
@@ -84,8 +87,8 @@ void cfg_t::ltdc_init()
   gpio.Pull = GPIO_PULLUP;
   gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(std::get<1>(m_lcd_render_time_pin_port), &gpio);
-  
-  
+
+
   m_ltd_handle.Instance = LTDC;
   m_ltd_handle.Init.HSPolarity = LTDC_HSPOLARITY_AL;
   m_ltd_handle.Init.VSPolarity = LTDC_VSPOLARITY_AL;
@@ -105,9 +108,9 @@ void cfg_t::ltdc_init()
   if (HAL_LTDC_Init(&m_ltd_handle) != HAL_OK) {
     DBG_MSG("LTDC init error")
   }
-  
+
   LTDC_LayerCfgTypeDef pLayerCfg = {0};
-  
+
   pLayerCfg.WindowX0 = 0;
   pLayerCfg.WindowX1 = 640;
   pLayerCfg.WindowY0 = 0;
@@ -131,7 +134,7 @@ void cfg_t::ltdc_init()
 void cfg_t::fmc_init()
 {
   SDRAM_HandleTypeDef sdram_handle = { 0 };
-  
+
   sdram_handle.Instance = FMC_SDRAM_DEVICE;
   sdram_handle.Init.SDBank = FMC_SDRAM_BANK2;
   sdram_handle.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_8;
@@ -143,7 +146,7 @@ void cfg_t::fmc_init()
   sdram_handle.Init.SDClockPeriod = FMC_SDRAM_CLOCK_DISABLE;
   sdram_handle.Init.ReadBurst = FMC_SDRAM_RBURST_DISABLE;
   sdram_handle.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;
-  
+
   FMC_SDRAM_TimingTypeDef sdram_timings = {0};
   sdram_timings.LoadToActiveDelay = 16;
   sdram_timings.ExitSelfRefreshDelay = 16;
@@ -187,7 +190,7 @@ void cfg_t::qspi_init()
   m_qspi_handle.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_4_CYCLE;
   m_qspi_handle.Init.ClockMode = QSPI_CLOCK_MODE_0;
   m_qspi_handle.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
-  
+
   if (HAL_QSPI_Init(&m_qspi_handle) != HAL_OK) {
     DBG_MSG("QSPI init error 1")
   }
@@ -197,7 +200,7 @@ void cfg_t::qspi_init()
   qspi_init.InterfaceMode  = MT25TL01G_QPI_MODE;
   qspi_init.TransferRate   = MT25TL01G_DTR_TRANSFER;
   qspi_init.DualFlashMode  = MT25TL01G_DUALFLASH_ENABLE;
-  
+
   if(BSP_QSPI_Init(0,&qspi_init) != BSP_ERROR_NONE) {
     DBG_MSG("QSPI init error 2")
   }
@@ -205,6 +208,17 @@ void cfg_t::qspi_init()
     DBG_MSG("QSPI init error 3")
   }
   HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
+}
+
+void cfg_t::sd_init()
+{
+  sd_detected = false;
+
+  if(BSP_SD_Init(0) == BSP_ERROR_NONE) {
+    if (fatfs::sd::init_fs()) {
+      sd_detected = true;
+    }
+  }
 }
 
 LTDC_HandleTypeDef *cfg_t::ltdc_handle()

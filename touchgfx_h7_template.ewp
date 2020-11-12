@@ -49,16 +49,16 @@
                 <option>
                     <name>GRuntimeLibSelect</name>
                     <version>0</version>
-                    <state>1</state>
+                    <state>2</state>
                 </option>
                 <option>
                     <name>GRuntimeLibSelectSlave</name>
                     <version>0</version>
-                    <state>1</state>
+                    <state>2</state>
                 </option>
                 <option>
                     <name>RTDescription</name>
-                    <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
+                    <state>Use the full configuration of the C/C++ runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
                 </option>
                 <option>
                     <name>OGProductVersion</name>
@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>RTConfigPath2</name>
-                    <state>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</state>
+                    <state>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</state>
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
@@ -369,6 +369,7 @@
                     <state>$PROJ_DIR$/../extern_libs/st/STM32Cube_FW_H7/Drivers/CMSIS/Include</state>
                     <state>$PROJ_DIR$/../extern_libs/st/STM32Cube_FW_H7/Drivers/BSP/Components/Common</state>
                     <state>$PROJ_DIR$/../extern_libs/st/STM32Cube_FW_H7/Drivers/BSP/STM32H743I-EVAL</state>
+                    <state>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1114,6 +1115,9 @@
                     <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\BSP\STM32H743I-EVAL\stm32h743i_eval_qspi.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\BSP\STM32H743I-EVAL\stm32h743i_eval_sd.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\BSP\STM32H743I-EVAL\stm32h743i_eval_sdram.c</name>
                 </file>
                 <file>
@@ -1196,6 +1200,9 @@
                 <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_rcc_ex.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_sd.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_sdram.c</name>
             </file>
             <file>
@@ -1205,7 +1212,13 @@
                 <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_tim_ex.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_delayblock.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_fmc.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_sdmmc.c</name>
             </file>
         </group>
     </group>
@@ -1213,6 +1226,36 @@
         <name>EWARM</name>
         <file>
             <name>$PROJ_DIR$\startup_stm32h743xx.s</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\stm32h743xx_flash.icf</name>
+        </file>
+    </group>
+    <group>
+        <name>FatFs</name>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\diskio.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\diskio.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\ff.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\ff.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\option\syscall.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\extern_libs\st\STM32Cube_FW_H7\Middlewares\Third_Party\FatFs\src\option\unicode.c</name>
         </file>
     </group>
     <group>
@@ -1268,7 +1311,10 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Font_verdana_10_4bpp_0.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Font_verdana_20_4bpp_0.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Font_verdana_25_4bpp_0.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Font_verdana_30_4bpp_0.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Font_verdana_40_4bpp_0.cpp</name>
@@ -1283,16 +1329,25 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Kerning_verdana_10_4bpp.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Kerning_verdana_20_4bpp.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Kerning_verdana_25_4bpp.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Kerning_verdana_30_4bpp.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Kerning_verdana_40_4bpp.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\texts\src\LanguageGb.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Table_verdana_10_4bpp.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Table_verdana_20_4bpp.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Table_verdana_25_4bpp.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Table_verdana_30_4bpp.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\fonts\src\Table_verdana_40_4bpp.cpp</name>
@@ -1304,25 +1359,58 @@
         <group>
             <name>gui</name>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\src\audioplayer_screen\AudioPlayerPresenter.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\src\audioplayer_screen\AudioPlayerView.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\gui\src\common\FrontendApplication.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\gui\src\main_screen\MainPresenter.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\TouchGFX\gui\src\main_screen\MainView.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\gui\src\containers\ItemsListContainer.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\gui\src\model\Model.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\include\gui\model\Model.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\include\gui\model\ModelListener.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\src\containers\TextContainer.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\src\containers\TextWithImageContainer.cpp</name>
             </file>
         </group>
         <group>
             <name>gui_generated</name>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\audioplayer_screen\AudioPlayerViewBase.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\audioplayer_screen\AudioPlayerViewBase.hpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\common\FrontendApplicationBase.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\main_screen\MainViewBase.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\containers\ItemsListContainerBase.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\containers\ItemsListContainerBase.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\containers\TextContainerBase.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\include\gui_generated\containers\TextContainerBase.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\gui_generated\src\containers\TextWithImageContainerBase.cpp</name>
             </file>
         </group>
         <group>
@@ -1334,16 +1422,40 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_background.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_Edge_small.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_icon_button.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_Edge_small_pressed.cpp</name>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Buttons_Round_icon_button_pressed.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Back_arrow_32.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Next_arrow_32.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Play_32.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_highlight.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_normal.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Horizontal_Medium_Indicators_Slider_Round_nob.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Horizontal_Medium_Slider_Round_back.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Horizontal_Medium_Slider_Round_fill.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Textures_gplaypattern.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Textures_irongrip.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_close_button.cpp</name>
@@ -1359,6 +1471,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_my_modal_background.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_play_image.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_show_modal_button.cpp</name>
@@ -1436,6 +1551,9 @@
                 <name>$PROJ_DIR$\Core\exc7200_conf.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\Core\ffconf.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\Core\FreeRTOSConfig.h</name>
             </file>
             <file>
@@ -1459,6 +1577,15 @@
         </group>
         <group>
             <name>Core</name>
+            <group>
+                <name>Threads</name>
+                <file>
+                    <name>$PROJ_DIR$\Core\thread.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\Core\touchgfx_thread.h</name>
+                </file>
+            </group>
             <file>
                 <name>$PROJ_DIR$\Core\app.cpp</name>
             </file>
@@ -1472,13 +1599,28 @@
                 <name>$PROJ_DIR$\Core\cfg.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\Core\codecvt_oem866.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\codecvt_oem866.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\Core\defs.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Core\freertos.c</name>
+                <name>$PROJ_DIR$\Core\file_operations.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\file_operations.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Core\main.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\sd_diskio_dma_rtos.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Core\sd_diskio_dma_rtos.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Core\stm32h7xx_hal_msp.c</name>

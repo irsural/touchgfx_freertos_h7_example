@@ -3,6 +3,7 @@
 
 #include <touchgfx/Utils.hpp>
 #include <sstream>
+#include <vector>
 
 class ModelListener;
 
@@ -21,29 +22,32 @@ class ModelListener;
 class Model
 {
 public:
-    Model();
+  Model();
 
-    /**
-     * Sets the modelListener to point to the currently active presenter. Called automatically
-     * when switching screen.
-     */
-    void bind(ModelListener* listener)
-    {
-        modelListener = listener;
-    }
+  /**
+   * Sets the modelListener to point to the currently active presenter. Called automatically
+   * when switching screen.
+   */
+  void bind(ModelListener* listener)
+  {
+      modelListener = listener;
+  }
 
-    /**
-     * This function will be called automatically every frame. Can be used to e.g. sample hardware
-     * peripherals or read events from the surrounding system and inject events to the GUI through
-     * the ModelListener interface.
-     */
-    void tick();
+  /**
+   * This function will be called automatically every frame. Can be used to e.g. sample hardware
+   * peripherals or read events from the surrounding system and inject events to the GUI through
+   * the ModelListener interface.
+   */
+  void tick();
 protected:
-    /**
-     * Pointer to the currently active presenter.
-     */
-    ModelListener* modelListener;
-    std::string m_debug_str;
+  /**
+   * Pointer to the currently active presenter.
+   */
+  ModelListener* modelListener;
+  std::string m_debug_str;
+
+private:
+  void show_fps();
 };
 
 #endif /* MODEL_HPP */

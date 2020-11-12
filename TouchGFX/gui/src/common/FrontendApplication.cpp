@@ -9,3 +9,8 @@ FrontendApplication::FrontendApplication(Model& m, FrontendHeap& heap) :
   m_display_logger.setColor(0x00); //black
   Application::setDebugPrinter(&m_display_logger);
 }
+
+void FrontendApplication::handleClickEvent(const ClickEvent& evt)
+{
+    MVPApplication::handleClickEvent(evt);
+}

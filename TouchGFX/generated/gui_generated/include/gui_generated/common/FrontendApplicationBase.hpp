@@ -15,16 +15,16 @@ public:
     FrontendApplicationBase(Model& m, FrontendHeap& heap);
     virtual ~FrontendApplicationBase() { }
 
-    // Main
-    void gotoMainScreenNoTransition();
+    // AudioPlayer
+    void gotoAudioPlayerScreenNoTransition();
 
 protected:
     touchgfx::Callback<FrontendApplicationBase> transitionCallback;
     FrontendHeap& frontendHeap;
     Model& model;
 
-    // Main
-    void gotoMainScreenNoTransitionImpl();
+    // AudioPlayer
+    void gotoAudioPlayerScreenNoTransitionImpl();
 };
 
 #endif // FRONTENDAPPLICATIONBASE_HPP

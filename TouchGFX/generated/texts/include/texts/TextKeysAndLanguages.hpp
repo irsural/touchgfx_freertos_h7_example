@@ -7,12 +7,17 @@
 
 typedef enum
 {
+    GB,
     NUMBER_OF_LANGUAGES
 } LANGUAGES;
 
 
 typedef enum
 {
+    T_SINGLEUSEID2,
+    T_SINGLEUSEID3,
+    T_SINGLEUSEID5,
+    T_SINGLEUSEID6,
     NUMBER_OF_TEXT_KEYS
 } TEXTS;
 

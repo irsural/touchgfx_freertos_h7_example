@@ -18,7 +18,7 @@
 /* USER CODE BEGIN STM32TouchController */
 
 #include <STM32TouchController.hpp>
-    
+
 #include "stm32h7xx_hal.h"
 #include "stm32h743i_eval_ts.h"
 
@@ -28,7 +28,7 @@ void STM32TouchController::init()
   int trials = 10;
   TS_Init_t hTS;
 
-  /* Initialize the Touch screen */  
+  /* Initialize the Touch screen */
   hTS.Width = 640;
   hTS.Height = 480;
   hTS.Orientation = TS_SWAP_NONE;
@@ -39,7 +39,7 @@ void STM32TouchController::init()
     result = BSP_TS_Init(0, &hTS);
     HAL_Delay(10);
   } while ((result != BSP_ERROR_NONE) && (trials-- > 0));
-  
+
   assert(result == BSP_ERROR_NONE);
 }
 
@@ -60,7 +60,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
     }
 
     time = HAL_GetTick();
-    if (((lastTime + 100) > time)
+    if (((lastTime + 120) > time)
         && (lastX > 0) && (lastY > 0)) {
         x = lastX;
         y = lastY;

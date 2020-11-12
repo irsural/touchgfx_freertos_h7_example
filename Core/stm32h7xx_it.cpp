@@ -39,11 +39,16 @@ void DebugMon_Handler(void)
 {
 }
 
+void SDMMC1_IRQHandler(void)
+{
+  BSP_SD_IRQHandler(0);
+}
+
 void TIM6_DAC_IRQHandler(void)
 {
   TIM6->SR &= ~TIM_IT_UPDATE;
   HAL_IncTick();
-  
+
 }
 
 void LTDC_IRQHandler(void)

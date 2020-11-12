@@ -4,14 +4,13 @@
       {
         "Components": [
           {
-            "Type": "Box",
-            "Color": {
-              "Red": 76,
-              "Green": 115,
-              "Blue": 240
-            },
+            "Type": "TiledImage",
+            "FileName": "__designer\\Blue_Textures_irongrip.png",
             "Alpha": 255,
-            "Name": "backgroundBox",
+            "Style": "Texture10",
+            "OffsetX": 0,
+            "OffsetY": 0,
+            "Name": "background_tile",
             "X": 0,
             "Y": 0,
             "Width": 640,
@@ -24,18 +23,121 @@
             "Moveable": false
           },
           {
+            "Type": "ButtonWithIcon",
+            "Pressed": "__designer\\Blue_Buttons_Round_icon_button_pressed.png",
+            "Released": "__designer\\Blue_Buttons_Round_icon_button.png",
+            "Alpha": 255,
+            "IconPressed": "__designer\\Blue_Icons_Play_32.png",
+            "IconReleased": "__designer\\Blue_Icons_Play_32.png",
+            "IconX": 20,
+            "IconY": 15,
+            "IconHeight": 30,
+            "IconWidth": 21,
+            "ButtonStyle": "Style5",
+            "IconStyle": "Icon45",
+            "Name": "play_pause_button",
+            "X": 390,
+            "Y": 382,
+            "Width": 60,
+            "Height": 60,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Pressed": "__designer\\Blue_Buttons_Round_icon_button_pressed.png",
+            "Released": "__designer\\Blue_Buttons_Round_icon_button.png",
+            "Alpha": 255,
+            "IconPressed": "__designer\\Blue_Icons_Next_arrow_32.png",
+            "IconReleased": "__designer\\Blue_Icons_Next_arrow_32.png",
+            "IconX": 22,
+            "IconY": 15,
+            "IconHeight": 30,
+            "IconWidth": 17,
+            "ButtonStyle": "Style5",
+            "IconStyle": "Icon39",
+            "Name": "next_track_button",
+            "X": 490,
+            "Y": 382,
+            "Width": 60,
+            "Height": 60,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Pressed": "__designer\\Blue_Buttons_Round_icon_button_pressed.png",
+            "Released": "__designer\\Blue_Buttons_Round_icon_button.png",
+            "Alpha": 255,
+            "IconPressed": "__designer\\Blue_Icons_Back_arrow_32.png",
+            "IconReleased": "__designer\\Blue_Icons_Back_arrow_32.png",
+            "IconX": 22,
+            "IconY": 15,
+            "IconHeight": 30,
+            "IconWidth": 17,
+            "ButtonStyle": "Style5",
+            "IconStyle": "Icon5",
+            "Name": "previous_track_button",
+            "X": 290,
+            "Y": 382,
+            "Width": 60,
+            "Height": 60,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Slider",
+            "IsHorizontalSlider": true,
+            "BackgroundUnselected": "__designer\\Blue_Slider_Horizontal_Medium_Slider_Round_back.png",
+            "BackgroundSelected": "__designer\\Blue_Slider_Horizontal_Medium_Slider_Round_fill.png",
+            "Indicator": "__designer\\Blue_Slider_Horizontal_Medium_Indicators_Slider_Round_nob.png",
+            "BackgroundX": 2,
+            "BackgroundY": 19,
+            "IndicatorPos": 2,
+            "IndicatorMax": 310,
+            "IndicatorMin": 0,
+            "ValueMax": 100,
+            "ValueMin": 0,
+            "InitValue": 0,
+            "Style": "Style7",
+            "Name": "track_slider",
+            "X": 241,
+            "Y": 309,
+            "Width": 358,
+            "Height": 52,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
             "Components": [
               {
                 "Components": [
                   {
-                    "Type": "Image",
-                    "RelativeFilename": "close_button.png",
+                    "Type": "ScalableImage",
+                    "Filename": "",
                     "Alpha": 255,
-                    "Name": "image2",
-                    "X": 50,
-                    "Y": 72,
-                    "Width": 130,
-                    "Height": 56,
+                    "ScalingAlgorithm": "Nearest-neighbor",
+                    "Name": "track_image",
+                    "X": 0,
+                    "Y": 0,
+                    "Width": 250,
+                    "Height": 250,
                     "Visible": true,
                     "LockPosition": false,
                     "Draggable": false,
@@ -46,11 +148,11 @@
                 ],
                 "Type": "Container",
                 "IsCacheableContainer": false,
-                "Name": "swipeContainer1Page2",
+                "Name": "image_container_page",
                 "X": 0,
                 "Y": 0,
-                "Width": 231,
-                "Height": 201,
+                "Width": 250,
+                "Height": 250,
                 "Visible": true,
                 "LockPosition": false,
                 "Draggable": false,
@@ -61,16 +163,47 @@
               {
                 "Components": [
                   {
-                    "Type": "Button",
-                    "Pressed": "__designer\\Blue_Buttons_Round_Edge_small_pressed.png",
-                    "Released": "__designer\\Blue_Buttons_Round_Edge_small.png",
+                    "Type": "DynamicGraph",
+                    "DataSeed": -1386937766,
+                    "NumberOfValues": 24,
+                    "MaxY": 100.0,
+                    "MinY": 0.0,
+                    "Precision": "1",
+                    "UseCustomVisibleDataPointRange": false,
+                    "FirstIndex": 0,
+                    "LastIndex": 23,
+                    "MapDataPointIndexToCustomValue": false,
+                    "XAxisOffset": 0.0,
+                    "XAxisScale": 1.0,
+                    "InsertRandomValues": true,
                     "Alpha": 255,
-                    "Style": "Style4",
-                    "Name": "button1",
-                    "X": 30,
-                    "Y": 70,
-                    "Width": 170,
-                    "Height": 60,
+                    "LabelSizeTop": 0,
+                    "LabelSizeBottom": 0,
+                    "LabelSizeLeft": 0,
+                    "LabelSizeRight": 0,
+                    "PaddingTop": 0,
+                    "PaddingBottom": 0,
+                    "PaddingLeft": 0,
+                    "PaddingRight": 0,
+                    "GraphType": "GraphWrapOverwrite",
+                    "GraphDrawers": [
+                      {
+                        "Type": "HistogramDrawer",
+                        "BarWidth": 9,
+                        "BarOffset": 6,
+                        "Color": {
+                          "Red": 20,
+                          "Green": 151,
+                          "Blue": 197
+                        },
+                        "Alpha": 255
+                      }
+                    ],
+                    "Name": "frequency_graph",
+                    "X": 0,
+                    "Y": 0,
+                    "Width": 250,
+                    "Height": 250,
                     "Visible": true,
                     "LockPosition": false,
                     "Draggable": false,
@@ -81,11 +214,11 @@
                 ],
                 "Type": "Container",
                 "IsCacheableContainer": false,
-                "Name": "swipeContainer1Page1",
+                "Name": "graph_container_page",
                 "X": 0,
                 "Y": 0,
-                "Width": 231,
-                "Height": 201,
+                "Width": 250,
+                "Height": 250,
                 "Visible": true,
                 "LockPosition": false,
                 "Draggable": false,
@@ -102,14 +235,153 @@
             "CenteredX": false,
             "IndicatorImageNormal": "__designer\\Blue_PageIndicator_dot_indicator_small_normal.png",
             "IndicatorImageHighlight": "__designer\\Blue_PageIndicator_dot_indicator_small_highlight.png",
-            "EndSwipeElasticWidth": 1,
-            "SelectedPage": "swipeContainer1Page1",
+            "EndSwipeElasticWidth": 50,
+            "SelectedPage": "image_container_page",
             "Style": "Style1",
-            "Name": "swipeContainer1",
-            "X": 205,
-            "Y": 140,
-            "Width": 231,
-            "Height": 201,
+            "Name": "image_graph_container",
+            "X": 295,
+            "Y": 23,
+            "Width": 250,
+            "Height": 250,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "CustomContainerDefinitionName": "ItemsListContainer",
+            "Type": "CustomContainerInstance",
+            "Name": "playlist_container",
+            "X": 0,
+            "Y": 0,
+            "Width": 180,
+            "Height": 509,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Components": [
+              {
+                "Type": "TextArea",
+                "TextId": "SingleUseId6",
+                "TextRotation": "0",
+                "Color": {
+                  "Red": 0,
+                  "Green": 0,
+                  "Blue": 0
+                },
+                "Alpha": 255,
+                "AutoSize": true,
+                "LineSpacing": 0,
+                "Name": "textArea1",
+                "X": 54,
+                "Y": 105,
+                "Width": 232,
+                "Height": 31,
+                "Visible": true,
+                "LockPosition": false,
+                "Draggable": false,
+                "Clickable": false,
+                "Fadeable": false,
+                "Moveable": false
+              }
+            ],
+            "Type": "ModalWindow",
+            "FileName": "my_modal_background.png",
+            "Color": {
+              "Red": 0,
+              "Green": 0,
+              "Blue": 0
+            },
+            "ModalX": 150,
+            "ModalY": 120,
+            "ModalWidth": 340,
+            "ModalHeight": 240,
+            "ContX": 0,
+            "ContY": 0,
+            "Alpha": 118,
+            "Name": "init_modal_window",
+            "X": 0,
+            "Y": 0,
+            "Width": 640,
+            "Height": 480,
+            "Visible": false,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [],
+        "Name": "AudioPlayer",
+        "OverrideDefaultBufferSize": false,
+        "CanvasBufferSize": 0
+      }
+    ],
+    "CustomContainerDefinitions": [
+      {
+        "Components": [
+          {
+            "Type": "TiledImage",
+            "FileName": "__designer\\Blue_Textures_gplaypattern.png",
+            "Alpha": 49,
+            "Style": "Texture7",
+            "OffsetX": 0,
+            "OffsetY": 0,
+            "Name": "tiledImage1",
+            "X": 0,
+            "Y": 0,
+            "Width": 180,
+            "Height": 509,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Components": [
+              {
+                "Components": [],
+                "Type": "ListLayout",
+                "Direction": "South",
+                "Name": "list_layout",
+                "X": 0,
+                "Y": 0,
+                "Width": 200,
+                "Height": 29,
+                "Visible": true,
+                "LockPosition": false,
+                "Draggable": false,
+                "Clickable": false,
+                "Fadeable": false,
+                "Moveable": false
+              }
+            ],
+            "Type": "ScrollableContainer",
+            "HorizontalScrollEnabled": false,
+            "VerticalScrollEnabled": true,
+            "ScrollbarsVisible": false,
+            "ScrollbarsVisibleOnPressed": true,
+            "ScrollbarsColor": {
+              "Red": 0,
+              "Green": 0,
+              "Blue": 0
+            },
+            "ScrollbarsAlpha": 255,
+            "Name": "scroll_area",
+            "X": 0,
+            "Y": 0,
+            "Width": 180,
+            "Height": 509,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -118,45 +390,131 @@
             "Moveable": false
           }
         ],
-        "Interactions": [
+        "Interactions": [],
+        "Name": "ItemsListContainer",
+        "X": 0,
+        "Y": 0,
+        "Width": 180,
+        "Height": 480
+      },
+      {
+        "Components": [
           {
-            "InteractionName": "Interaction1",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "button1"
+            "Type": "TextArea",
+            "TextId": "SingleUseId3",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 0,
+              "Green": 0,
+              "Blue": 0
             },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "set_random_color"
-            }
-          },
-          {
-            "InteractionName": "start_stop_animation_int",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "button1"
+            "Alpha": 255,
+            "AutoSize": false,
+            "LineSpacing": 0,
+            "Wildcard1": {
+              "UseBuffer": false,
+              "BufferSize": 0
             },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "start_stop_animation"
-            }
+            "Name": "_text",
+            "X": 0,
+            "Y": 0,
+            "Width": 160,
+            "Height": 29,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
           }
         ],
-        "Name": "Main",
-        "OverrideDefaultBufferSize": false,
-        "CanvasBufferSize": 0
+        "Interactions": [],
+        "Name": "TextContainer",
+        "X": 0,
+        "Y": 0,
+        "Width": 160,
+        "Height": 29
+      },
+      {
+        "Components": [
+          {
+            "Type": "Image",
+            "RelativeFilename": "",
+            "Alpha": 255,
+            "Name": "_image",
+            "X": 150,
+            "Y": 0,
+            "Width": 80,
+            "Height": 80,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "TextArea",
+            "TextId": "SingleUseId5",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 0,
+              "Green": 0,
+              "Blue": 0
+            },
+            "Alpha": 255,
+            "AutoSize": false,
+            "LineSpacing": 0,
+            "Wildcard1": {
+              "UseBuffer": false,
+              "BufferSize": 0
+            },
+            "Name": "_text",
+            "X": 0,
+            "Y": 0,
+            "Width": 150,
+            "Height": 29,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [],
+        "Name": "TextWithImageContainer",
+        "X": 0,
+        "Y": 0,
+        "Width": 180,
+        "Height": 30
       }
     ],
-    "CustomContainerDefinitions": [],
+    "TextEntries": [
+      {
+        "TextEntryId": "SingleUseId2",
+        "IsResource": false
+      },
+      {
+        "TextEntryId": "SingleUseId3",
+        "IsResource": false
+      },
+      {
+        "TextEntryId": "SingleUseId5",
+        "IsResource": false
+      },
+      {
+        "TextEntryId": "SingleUseId6",
+        "IsResource": false
+      }
+    ],
     "Name": "STM32H743I-EVAL",
     "Resolution": {
       "Width": 640,
       "Height": 480
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "Main",
+    "StartupScreenName": "AudioPlayer",
     "SelectedStartupLanguage": "GB",
     "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
