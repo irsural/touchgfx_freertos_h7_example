@@ -8,6 +8,5 @@ app_t::app_t() :
   touchgfx_thread()
 {
   create_thread(touchgfx_thread, "touchgfx_thread", osPriorityNormal, 2048);
-
   vTaskStartScheduler();
 }

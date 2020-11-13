@@ -27,6 +27,7 @@ void AudioPlayerPresenter::initialize_file_system()
 
     std::string file_name = root_dir.get_next();
     while (file_name != "") {
+      DBG_MSG(file_name);
       std::vector<touchgfx::Unicode::UnicodeChar> unicode_name = oem866_to_unicode(file_name.c_str());
       view.add_element_to_playlist(std::move(unicode_name));
       file_name = root_dir.get_next();

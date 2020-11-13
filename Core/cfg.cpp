@@ -12,9 +12,11 @@ cfg_t::cfg_t() :
   m_ltd_handle{ 0 },
   m_dma2d_handle{ 0 },
   m_qspi_handle{ 0 },
-  sd_detected(false)
+  sd_detected(false),
+  m_uart_mutex(xSemaphoreCreateMutex())
 {
   gpio_init();
+  uart_init();
   crc_init();
   ltdc_init();
   fmc_init();
@@ -53,6 +55,47 @@ void cfg_t::crc_init()
   if (HAL_CRC_Init(&hcrc) != HAL_OK) {
     DBG_MSG("CRC init error!!");
   }
+}
+
+void cfg_t::uart_init()
+{
+  __HAL_RCC_USART1_CLK_ENABLE();
+
+  GPIO_InitTypeDef  uart_gpio;
+  uart_gpio.Pin       = GPIO_PIN_14;
+  uart_gpio.Mode      = GPIO_MODE_AF_PP;
+  uart_gpio.Pull      = GPIO_PULLUP;
+  uart_gpio.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+  uart_gpio.Alternate = GPIO_AF4_USART1;
+  HAL_GPIO_Init(GPIOB, &uart_gpio);
+
+  m_uart_handle.Instance        = USART1;
+  m_uart_handle.Init.BaudRate   = 115200;
+  m_uart_handle.Init.WordLength = UART_WORDLENGTH_8B;
+  m_uart_handle.Init.StopBits   = UART_STOPBITS_1;
+  m_uart_handle.Init.Parity     = UART_PARITY_NONE;
+  m_uart_handle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
+  m_uart_handle.Init.Mode       = UART_MODE_TX;
+  m_uart_handle.Init.OverSampling = UART_OVERSAMPLING_16;
+
+  if(HAL_UART_Init(&m_uart_handle) != HAL_OK) {
+    DBG_MSG("UART init error!!");
+  }
+}
+
+void cfg_t::uart_send_char(uint8_t a_symbol)
+{
+  assert(xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED);
+
+  xSemaphoreTake(m_uart_mutex, portMAX_DELAY);
+
+  if (a_symbol == '\n') {
+    HAL_UART_Transmit(&m_uart_handle, &a_symbol, 1, 0xFFFF);
+    a_symbol = '\r';
+  }
+  HAL_UART_Transmit(&m_uart_handle, &a_symbol, 1, 0xFFFF);
+
+  xSemaphoreGive(m_uart_mutex);
 }
 
 void cfg_t::ltdc_init()

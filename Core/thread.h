@@ -23,7 +23,10 @@ public:
 template<class T>
 void create_thread(T& thread, char const* a_name, UBaseType_t priority, const configSTACK_DEPTH_TYPE stackDepth)
 {
-  xTaskCreate(static_cast<TaskFunction_t>(T::run), a_name, stackDepth, &thread, priority, &thread.handle);
+  if (xTaskCreate(static_cast<TaskFunction_t>(T::run), a_name, stackDepth, &thread, priority, &thread.handle) != pdPASS)
+  {
+    assert(false);
+  }
 }
 
 #endif // THREAD_H

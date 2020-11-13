@@ -3,9 +3,12 @@
 
 #include <tuple>
 #include <cstdint>
+#include <cassert>
 
 #include <stm32h7xx_hal.h>
 #include <stm32h743i_eval_sd.h>
+#include "FreeRTOS.h"
+#include "semphr.h"
 
 #include "defs.h"
 
@@ -30,13 +33,17 @@ private:
   LTDC_HandleTypeDef m_ltd_handle;
   DMA2D_HandleTypeDef m_dma2d_handle;
   QSPI_HandleTypeDef m_qspi_handle;
+  UART_HandleTypeDef m_uart_handle;
 
   bool sd_detected;
+
+  SemaphoreHandle_t m_uart_mutex;
 
   cfg_t();
 
   void gpio_init();
   void crc_init();
+  void uart_init();
   void ltdc_init();
   void fmc_init();
   void dma2d_init();
@@ -48,9 +55,10 @@ public:
     return cfg_instance;
   }
 
-  LTDC_HandleTypeDef *ltdc_handle();
-  DMA2D_HandleTypeDef *dma2d_handle();
+  LTDC_HandleTypeDef* ltdc_handle();
+  DMA2D_HandleTypeDef* dma2d_handle();
   bool is_sd_detected() { return sd_detected; };
+  void uart_send_char(uint8_t a_symbol);
 };
 
 #endif // CFG_H
