@@ -210,5 +210,6 @@ private:
 };
 
 std::vector<touchgfx::Unicode::UnicodeChar> oem866_to_unicode(const char* a_str);
+std::string unicode_to_oem866(const std::vector<touchgfx::Unicode::UnicodeChar>& a_unicode_str);
 
 #endif // __CODECVT_CP866__

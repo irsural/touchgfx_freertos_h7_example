@@ -4,6 +4,9 @@
 #include <touchgfx/Utils.hpp>
 #include <sstream>
 #include <vector>
+#include <thread.h>
+
+#include "defs.h"
 
 class ModelListener;
 
@@ -39,15 +42,22 @@ public:
    * the ModelListener interface.
    */
   void tick();
+
+  void set_gui_thread(thread_base_t* a_thread);
+  thread_base_t* get_gui_thread();
 protected:
   /**
    * Pointer to the currently active presenter.
    */
   ModelListener* modelListener;
-  std::string m_debug_str;
 
 private:
-  void show_fps();
+  std::string m_debug_str;
+  uint32_t m_debug_tick;
+
+  thread_base_t* m_gui_thread;
+
+  void show_mcu_load();
 };
 
 #endif /* MODEL_HPP */

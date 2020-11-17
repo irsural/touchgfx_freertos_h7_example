@@ -1377,6 +1377,12 @@
                 <name>$PROJ_DIR$\TouchGFX\gui\src\common\FrontendApplication.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\include\gui\common\FrontendApplication.hpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\gui\include\gui\common\FrontendHeap.hpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\gui\src\containers\ItemsListContainer.cpp</name>
             </file>
             <file>
@@ -1446,12 +1452,6 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Play_32.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_highlight.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_PageIndicator_dot_indicator_small_normal.cpp</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Horizontal_Medium_Indicators_Slider_Round_nob.cpp</name>
             </file>
             <file>
@@ -1509,9 +1509,6 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\TouchGFX\target\generated\STM32DMA.hpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\TouchGFX\target\generated\TouchGFXConfiguration.cpp</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\TouchGFX\target\generated\TouchGFXGeneratedHAL.cpp</name>
@@ -1589,7 +1586,22 @@
             <group>
                 <name>Threads</name>
                 <file>
+                    <name>$PROJ_DIR$\Core\read_dir_thread.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\Core\read_dir_thread.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\Core\read_file_thread.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\Core\read_file_thread.h</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\Core\thread.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\Core\touchgfx_thread.cpp</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\Core\touchgfx_thread.h</name>

@@ -5,9 +5,6 @@
 #include "cfg.h"
 
 
-extern DMA2D_HandleTypeDef hdma2d;
-extern TIM_HandleTypeDef htim6;
-
 void NMI_Handler(void)
 {
 }
@@ -46,9 +43,8 @@ void SDMMC1_IRQHandler(void)
 
 void TIM6_DAC_IRQHandler(void)
 {
-  TIM6->SR &= ~TIM_IT_UPDATE;
+  TIM6->SR = ~TIM_IT_UPDATE;
   HAL_IncTick();
-
 }
 
 void LTDC_IRQHandler(void)

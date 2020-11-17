@@ -40,4 +40,6 @@ void ItemsListContainer::update_pressed_item(TextWithImageContainer *a_item_addr
   m_last_pressed_item = pressed_item_idx;
 
   list_layout.invalidate();
+
+  emitItemChoosenCallback(m_items[pressed_item_idx]->text());
 }

@@ -1,64 +1,46 @@
-#include "ff_gen_drv.h"
 #include "sd_diskio_dma_rtos.h"
-#include "assert.h"
-#include <queue.h>
 
-#define QUEUE_SIZE         (uint32_t) 10
-#define READ_CPLT_MSG      (uint32_t) 1
-#define WRITE_CPLT_MSG     (uint32_t) 2
+#include <ff_gen_drv.h>
+#include <assert.h>
+#include <semphr.h>
 
-#define SD_TIMEOUT 30 * 1000
+
+#define SD_TIMEOUT 2 * 1000
 #define SD_DEFAULT_BLOCK_SIZE 512
 #define DISABLE_SD_INIT
 
 
-/*
- * when using cachable memory region, it may be needed to maintain the cache
- * validity. Enable the define below to activate a cache maintenance at each
- * read and write operation.
- * Notice: This is applicable only for cortex M7 based platform.
- */
-
+//  when using cachable memory region, it may be needed to maintain the cache
+//  validity. Enable the define below to activate a cache maintenance at each
+//  read and write operation.
+//  Notice: This is applicable only for cortex M7 based platform.
 #define ENABLE_SD_DMA_CACHE_MAINTENANCE 1
 
 
 static volatile DSTATUS Stat = STA_NOINIT;
-static QueueHandle_t sd_queue;
+static SemaphoreHandle_t sd_semaphore;
+static SemaphoreHandle_t sd_mutex;
 
 static DSTATUS SD_CheckStatus(BYTE lun);
 DSTATUS SD_initialize (BYTE);
 DSTATUS SD_status (BYTE);
 DRESULT SD_read (BYTE, BYTE*, DWORD, UINT);
-
-#if _USE_WRITE == 1
-  DRESULT SD_write (BYTE, const BYTE*, DWORD, UINT);
-#endif /* _USE_WRITE == 1 */
-
-#if _USE_IOCTL == 1
-  DRESULT SD_ioctl (BYTE, BYTE, void*);
-#endif  /* _USE_IOCTL == 1 */
+DRESULT SD_write (BYTE, const BYTE*, DWORD, UINT);
+DRESULT SD_ioctl (BYTE, BYTE, void*);
 
 const Diskio_drvTypeDef  SD_Driver =
 {
   SD_initialize,
   SD_status,
   SD_read,
-#if  _USE_WRITE == 1
   SD_write,
-#endif /* _USE_WRITE == 1 */
-
-#if  _USE_IOCTL == 1
   SD_ioctl,
-#endif /* _USE_IOCTL == 1 */
 };
 
-/* Private functions ---------------------------------------------------------*/
 static DSTATUS SD_CheckStatus(BYTE lun)
 {
   Stat = STA_NOINIT;
-
-  if(BSP_SD_GetCardState(0) == BSP_ERROR_NONE)
-  {
+  if(BSP_SD_GetCardState(0) == BSP_ERROR_NONE){
     Stat &= ~STA_NOINIT;
   }
 
@@ -80,16 +62,15 @@ DSTATUS SD_initialize(BYTE lun)
     }
   }
 #else
-    Stat = SD_CheckStatus(lun);
+  Stat = SD_CheckStatus(lun);
 #endif
 
-    /*
-     * if the SD is correctly initialized, create the operation queue
-     */
-
-    if (Stat != STA_NOINIT) {
-      sd_queue = xQueueCreate (QUEUE_SIZE, 4);
-    }
+  if (Stat != STA_NOINIT) {
+    sd_semaphore = xSemaphoreCreateCounting(10, 0);
+    sd_mutex = xSemaphoreCreateMutex();
+  } else {
+    assert(0);
+  }
 
   return Stat;
 }
@@ -101,68 +82,56 @@ DSTATUS SD_status(BYTE lun)
 
 DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
 {
+  xSemaphoreTake(sd_mutex, portMAX_DELAY);
+
   DRESULT res = RES_ERROR;
+  if(BSP_SD_ReadBlocks_DMA(0, (uint32_t*)buff, (uint32_t)sector, count) == BSP_ERROR_NONE) {
+    xSemaphoreTake(sd_semaphore, SD_TIMEOUT);
 
-  if(BSP_SD_ReadBlocks_DMA(0, (uint32_t*)buff, (uint32_t)sector, count) == BSP_ERROR_NONE)
-  {
-    uint32_t msg = 0;
-    xQueueReceive(sd_queue, &msg,  SD_TIMEOUT);
+    uint32_t timer = xTaskGetTickCount() + SD_TIMEOUT;
 
-    if (msg == READ_CPLT_MSG) {
-      uint32_t timer = xTaskGetTickCount() + SD_TIMEOUT;
+    while(timer > xTaskGetTickCount()) {
+      if (BSP_SD_GetCardState(0) == SD_TRANSFER_OK) {
+        res = RES_OK;
 
-      while(timer > xTaskGetTickCount()) {
-        if (BSP_SD_GetCardState(0) == SD_TRANSFER_OK) {
-          res = RES_OK;
-          #if (ENABLE_SD_DMA_CACHE_MAINTENANCE == 1)
-          // the SCB_InvalidateDCache_by_Addr() requires a 32-Byte aligned address,
-          // adjust the address and the D-Cache size to invalidate accordingly.
-          uint32_t alignedAddr = (uint32_t)buff & ~0x1F;
-          SCB_InvalidateDCache_by_Addr((uint32_t*)alignedAddr,
-            count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
-          #endif
-          break;
-        }
+        #if (ENABLE_SD_DMA_CACHE_MAINTENANCE == 1)
+        // the SCB_InvalidateDCache_by_Addr() requires a 32-Byte aligned address,
+        // adjust the address and the D-Cache size to invalidate accordingly.
+        uint32_t alignedAddr = (uint32_t)buff & ~0x1F;
+        SCB_InvalidateDCache_by_Addr((uint32_t*)alignedAddr,
+          count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
+        #endif
+        break;
       }
     }
   }
+  xSemaphoreGive(sd_mutex);
+
   return res;
 }
 
-#if _USE_WRITE == 1
 DRESULT SD_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
 {
+  xSemaphoreTake(sd_mutex, portMAX_DELAY);
+
   DRESULT res = RES_ERROR;
-  uint32_t timer;
-  /*
- since the MPU is configured as write-through, see main.c file, there isn't any need
- to maintain the cache as the cache content is always coherent with the memory
- If needed, check the file "Middlewares/Third_Party/FatFs/src/drivers/sd_diskio_dma_rtos_template.c"
- to see how the cache is maintained during the write operations.
- */
+  if(BSP_SD_WriteBlocks_DMA(0, (uint32_t*)buff, (uint32_t)sector, count) == BSP_ERROR_NONE) {
+    xSemaphoreTake(sd_semaphore, SD_TIMEOUT);
 
-  if(BSP_SD_WriteBlocks_DMA(0, (uint32_t*)buff, (uint32_t)sector, count) == BSP_ERROR_NONE)
-  {
-    uint32_t msg = 0;
-    xQueueReceive(sd_queue, &msg,  SD_TIMEOUT);
+    uint32_t timer = xTaskGetTickCount() + SD_TIMEOUT;
 
-    if (msg == WRITE_CPLT_MSG) {
-      timer = xTaskGetTickCount() + SD_TIMEOUT;
-      /* block until SDIO IP is ready or a timeout occur */
-      while(timer > xTaskGetTickCount()) {
-        if (BSP_SD_GetCardState(0) == SD_TRANSFER_OK) {
-          res = RES_OK;
-          break;
-        }
+    while(timer > xTaskGetTickCount()) {
+      if (BSP_SD_GetCardState(0) == SD_TRANSFER_OK) {
+        res = RES_OK;
+        break;
       }
     }
   }
+  xSemaphoreGive(sd_mutex);
 
   return res;
 }
-#endif /* _USE_WRITE == 1 */
 
-#if _USE_IOCTL == 1
 DRESULT SD_ioctl(BYTE lun, BYTE cmd, void *buff)
 {
   DRESULT res = RES_ERROR;
@@ -195,7 +164,7 @@ DRESULT SD_ioctl(BYTE lun, BYTE cmd, void *buff)
   case GET_BLOCK_SIZE :
     BSP_SD_GetCardInfo(0, &CardInfo);
     *(DWORD*)buff = CardInfo.LogBlockSize / SD_DEFAULT_BLOCK_SIZE;
-	res = RES_OK;
+    res = RES_OK;
     break;
 
   default:
@@ -204,23 +173,19 @@ DRESULT SD_ioctl(BYTE lun, BYTE cmd, void *buff)
 
   return res;
 }
-#endif /* _USE_IOCTL == 1 */
 
 void BSP_SD_WriteCpltCallback(uint32_t Instance)
 {
   BaseType_t higher_priority_task_woken = pdFALSE;
-  uint32_t msg = WRITE_CPLT_MSG;
 
-  if (xQueueSendToBackFromISR(sd_queue, &msg, &higher_priority_task_woken) == pdTRUE) {
-    portYIELD_FROM_ISR (higher_priority_task_woken);
-  }
+  xSemaphoreGiveFromISR(sd_semaphore, &higher_priority_task_woken);
+  portYIELD_FROM_ISR (higher_priority_task_woken);
 }
 
 void BSP_SD_ReadCpltCallback(uint32_t Instance)
 {
   BaseType_t higher_priority_task_woken = pdFALSE;
-  uint32_t msg = READ_CPLT_MSG;
-  if (xQueueSendToBackFromISR(sd_queue, &msg, &higher_priority_task_woken) == pdTRUE) {
-    portYIELD_FROM_ISR (higher_priority_task_woken);
-  }
+
+  xSemaphoreGiveFromISR(sd_semaphore, &higher_priority_task_woken);
+  portYIELD_FROM_ISR (higher_priority_task_woken);
 }

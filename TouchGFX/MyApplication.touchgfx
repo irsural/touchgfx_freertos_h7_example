@@ -125,124 +125,13 @@
             "Moveable": false
           },
           {
-            "Components": [
-              {
-                "Components": [
-                  {
-                    "Type": "ScalableImage",
-                    "Filename": "",
-                    "Alpha": 255,
-                    "ScalingAlgorithm": "Nearest-neighbor",
-                    "Name": "track_image",
-                    "X": 0,
-                    "Y": 0,
-                    "Width": 250,
-                    "Height": 250,
-                    "Visible": true,
-                    "LockPosition": false,
-                    "Draggable": false,
-                    "Clickable": false,
-                    "Fadeable": false,
-                    "Moveable": false
-                  }
-                ],
-                "Type": "Container",
-                "IsCacheableContainer": false,
-                "Name": "image_container_page",
-                "X": 0,
-                "Y": 0,
-                "Width": 250,
-                "Height": 250,
-                "Visible": true,
-                "LockPosition": false,
-                "Draggable": false,
-                "Clickable": false,
-                "Fadeable": false,
-                "Moveable": false
-              },
-              {
-                "Components": [
-                  {
-                    "Type": "DynamicGraph",
-                    "DataSeed": -1386937766,
-                    "NumberOfValues": 24,
-                    "MaxY": 100.0,
-                    "MinY": 0.0,
-                    "Precision": "1",
-                    "UseCustomVisibleDataPointRange": false,
-                    "FirstIndex": 0,
-                    "LastIndex": 23,
-                    "MapDataPointIndexToCustomValue": false,
-                    "XAxisOffset": 0.0,
-                    "XAxisScale": 1.0,
-                    "InsertRandomValues": true,
-                    "Alpha": 255,
-                    "LabelSizeTop": 0,
-                    "LabelSizeBottom": 0,
-                    "LabelSizeLeft": 0,
-                    "LabelSizeRight": 0,
-                    "PaddingTop": 0,
-                    "PaddingBottom": 0,
-                    "PaddingLeft": 0,
-                    "PaddingRight": 0,
-                    "GraphType": "GraphWrapOverwrite",
-                    "GraphDrawers": [
-                      {
-                        "Type": "HistogramDrawer",
-                        "BarWidth": 9,
-                        "BarOffset": 6,
-                        "Color": {
-                          "Red": 20,
-                          "Green": 151,
-                          "Blue": 197
-                        },
-                        "Alpha": 255
-                      }
-                    ],
-                    "Name": "frequency_graph",
-                    "X": 0,
-                    "Y": 0,
-                    "Width": 250,
-                    "Height": 250,
-                    "Visible": true,
-                    "LockPosition": false,
-                    "Draggable": false,
-                    "Clickable": false,
-                    "Fadeable": false,
-                    "Moveable": false
-                  }
-                ],
-                "Type": "Container",
-                "IsCacheableContainer": false,
-                "Name": "graph_container_page",
-                "X": 0,
-                "Y": 0,
-                "Width": 250,
-                "Height": 250,
-                "Visible": true,
-                "LockPosition": false,
-                "Draggable": false,
-                "Clickable": false,
-                "Fadeable": false,
-                "Moveable": false
-              }
-            ],
-            "Type": "SwipeContainer",
-            "SwipeCutoff": 50,
-            "ShowPageIndicator": false,
-            "PageIndicatorX": 0,
-            "PageIndicatorY": 0,
-            "CenteredX": false,
-            "IndicatorImageNormal": "__designer\\Blue_PageIndicator_dot_indicator_small_normal.png",
-            "IndicatorImageHighlight": "__designer\\Blue_PageIndicator_dot_indicator_small_highlight.png",
-            "EndSwipeElasticWidth": 50,
-            "SelectedPage": "image_container_page",
-            "Style": "Style1",
-            "Name": "image_graph_container",
-            "X": 295,
-            "Y": 23,
-            "Width": 250,
-            "Height": 250,
+            "CustomContainerDefinitionName": "ItemsListContainer",
+            "Type": "CustomContainerInstance",
+            "Name": "playlist_container",
+            "X": 0,
+            "Y": 0,
+            "Width": 180,
+            "Height": 480,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -251,13 +140,47 @@
             "Moveable": false
           },
           {
-            "CustomContainerDefinitionName": "ItemsListContainer",
-            "Type": "CustomContainerInstance",
-            "Name": "playlist_container",
-            "X": 0,
-            "Y": 0,
-            "Width": 180,
-            "Height": 509,
+            "Type": "DynamicGraph",
+            "DataSeed": -23531658,
+            "NumberOfValues": 24,
+            "MaxY": 100.0,
+            "MinY": 0.0,
+            "Precision": "1",
+            "UseCustomVisibleDataPointRange": false,
+            "FirstIndex": 0,
+            "LastIndex": 23,
+            "MapDataPointIndexToCustomValue": false,
+            "XAxisOffset": 0.0,
+            "XAxisScale": 1.0,
+            "InsertRandomValues": false,
+            "Alpha": 255,
+            "LabelSizeTop": 0,
+            "LabelSizeBottom": 0,
+            "LabelSizeLeft": 0,
+            "LabelSizeRight": 0,
+            "PaddingTop": 0,
+            "PaddingBottom": 0,
+            "PaddingLeft": 0,
+            "PaddingRight": 0,
+            "GraphType": "GraphWrapClear",
+            "GraphDrawers": [
+              {
+                "Type": "HistogramDrawer",
+                "BarWidth": 9,
+                "BarOffset": 6,
+                "Color": {
+                  "Red": 20,
+                  "Green": 151,
+                  "Blue": 197
+                },
+                "Alpha": 255
+              }
+            ],
+            "Name": "frequency_graph",
+            "X": 295,
+            "Y": 23,
+            "Width": 250,
+            "Height": 250,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -391,11 +314,19 @@
           }
         ],
         "Interactions": [],
+        "CustomTriggers": [
+          {
+            "Name": "ItemChoosen",
+            "HasValue": true,
+            "ValueType": "const std::vector<touchgfx::Unicode::UnicodeChar>&"
+          }
+        ],
         "Name": "ItemsListContainer",
         "X": 0,
         "Y": 0,
         "Width": 180,
-        "Height": 480
+        "Height": 480,
+        "Includes": ""
       },
       {
         "Components": [

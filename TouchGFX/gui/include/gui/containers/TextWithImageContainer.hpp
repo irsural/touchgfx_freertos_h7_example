@@ -16,6 +16,8 @@ public:
   void setText(std::vector<touchgfx::Unicode::UnicodeChar> a_text);
   void setImage(const Bitmap& a_bmp);
 
+  const std::vector<touchgfx::Unicode::UnicodeChar>& text() const noexcept;
+
   virtual void handleClickEvent(const ClickEvent &event);
 
   void set_item_clicked_callback(touchgfx::GenericCallback<TextWithImageContainer*>& a_callback);

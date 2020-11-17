@@ -51,3 +51,44 @@ std::string fatfs::dir::get_next()
     return get_next();
   }
 }
+
+
+fatfs::file_t::file_t(const char* a_path, uint32_t a_access_mode) :
+  m_file({0}),
+  m_error(FR_OK)
+{
+  FRESULT res = f_open(&m_file, a_path, a_access_mode);
+  assert(res == FR_OK);
+}
+
+fatfs::file_t::~file_t()
+{
+  f_close(&m_file);
+}
+
+fatfs::file_t::result_t fatfs::file_t::read(uint8_t* a_buffer, uint32_t a_buffer_size)
+{
+  uint32_t bytes_read = 0;
+  m_error = f_read(&m_file, a_buffer, a_buffer_size, &bytes_read);
+
+  result_t read_result = result_t::error;
+  if (m_error == FR_OK && bytes_read == 0) {
+    read_result = result_t::eof;
+  } else if (m_error == FR_OK) {
+    read_result = result_t::success;
+  }
+  return read_result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

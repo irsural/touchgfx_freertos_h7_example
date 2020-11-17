@@ -93,8 +93,7 @@ extern "C"
       while (1);
     }
 
-    void vApplicationMallocFailedHook(xTaskHandle xTask,
-                                      signed portCHAR* pcTaskName)
+    void vApplicationMallocFailedHook(void)
     {
       while (1);
     }

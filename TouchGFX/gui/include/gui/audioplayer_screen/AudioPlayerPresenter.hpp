@@ -5,6 +5,9 @@
 #include <mvp/Presenter.hpp>
 
 #include <vector>
+#include <memory>
+
+#include "read_dir_thread.h"
 
 using namespace touchgfx;
 
@@ -28,14 +31,19 @@ public:
     virtual void deactivate();
 
     virtual ~AudioPlayerPresenter() {};
+    virtual void presenter_tick() override;
 
     void initialize_file_system();
-    void get_song_name();
+
+    void start_playback(const std::vector<touchgfx::Unicode::UnicodeChar>& a_song_name);
 
 private:
     AudioPlayerPresenter();
 
     AudioPlayerView& view;
+
+    QueueHandle_t m_read_folred_queue;
+    std::shared_ptr<read_dir_thread_t> m_read_wav_files_thread;
 };
 
 #endif // AUDIOPLAYERPRESENTER_HPP

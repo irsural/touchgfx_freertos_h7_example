@@ -18,7 +18,7 @@ int main(void)
   SystemClock_Config();
 
   cfg_t::instance();
-  app_t *app = new app_t();
+  static app_t app;
 
   while (1) { }
 }
@@ -57,10 +57,6 @@ void SystemClock_Config()
   __HAL_RCC_SYSCFG_CLK_ENABLE();
   HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
 
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-
   /** Supply configuration update enable
   */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
@@ -74,6 +70,7 @@ void SystemClock_Config()
   __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
   /** Initializes the CPU, AHB and APB busses clocks
   */
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -91,9 +88,9 @@ void SystemClock_Config()
 
   /** Initializes the CPU, AHB and APB busses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 |
+    RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -104,6 +101,7 @@ void SystemClock_Config()
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
   }
 
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC | RCC_PERIPHCLK_QSPI |
     RCC_PERIPHCLK_FMC | RCC_PERIPHCLK_USART16;
   PeriphClkInitStruct.PLL3.PLL3M = 5;
@@ -174,5 +172,4 @@ void MPU_Config()
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
-
 }

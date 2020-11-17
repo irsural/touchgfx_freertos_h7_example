@@ -34,23 +34,10 @@ AudioPlayerViewBase::AudioPlayerViewBase()
     track_slider.setValueRange(0, 100);
     track_slider.setValue(0);
 
-    image_graph_container.setXY(295, 23);
-    image_graph_container.setSwipeCutoff(50);
-    image_graph_container.setEndSwipeElasticWidth(50);
-
-    image_container_page.setWidth(250);
-    image_container_page.setHeight(250);
-
-    track_image.setPosition(0, 0, 250, 250);
-    track_image.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
-    image_container_page.add(track_image);
-    image_graph_container.add(image_container_page);
-
-    graph_container_page.setWidth(250);
-    graph_container_page.setHeight(250);
+    playlist_container.setXY(0, 0);
 
     frequency_graph.setScale(1);
-    frequency_graph.setPosition(0, 0, 250, 250);
+    frequency_graph.setPosition(295, 23, 250, 250);
     frequency_graph.setGraphAreaMargin(0, 0, 0, 0);
     frequency_graph.setGraphAreaPadding(0, 0, 0, 0);
     frequency_graph.setGraphRangeY(0, 100);
@@ -60,36 +47,6 @@ AudioPlayerViewBase::AudioPlayerViewBase()
     frequency_graphHistogram1.setBarWidth(9);
     frequency_graphHistogram1.setBaseline(0);
     frequency_graph.addGraphElement(frequency_graphHistogram1);
-
-    frequency_graph.addDataPoint(47.4937847531115f);
-    frequency_graph.addDataPoint(32.182968870332f);
-    frequency_graph.addDataPoint(13.0750254406034f);
-    frequency_graph.addDataPoint(74.588534319786f);
-    frequency_graph.addDataPoint(80.1181203753271f);
-    frequency_graph.addDataPoint(48.5936586424215f);
-    frequency_graph.addDataPoint(74.8531846089801f);
-    frequency_graph.addDataPoint(46.3812365267941f);
-    frequency_graph.addDataPoint(1.12691038425325f);
-    frequency_graph.addDataPoint(45.1264813814431f);
-    frequency_graph.addDataPoint(55.3389618107415f);
-    frequency_graph.addDataPoint(41.089372632388f);
-    frequency_graph.addDataPoint(90.2190802885247f);
-    frequency_graph.addDataPoint(77.527036227144f);
-    frequency_graph.addDataPoint(24.0481001079362f);
-    frequency_graph.addDataPoint(45.3579637966259f);
-    frequency_graph.addDataPoint(35.7859351556695f);
-    frequency_graph.addDataPoint(11.0120897144708f);
-    frequency_graph.addDataPoint(69.7487511726548f);
-    frequency_graph.addDataPoint(83.208591309939f);
-    frequency_graph.addDataPoint(48.6607668685808f);
-    frequency_graph.addDataPoint(73.0739685781217f);
-    frequency_graph.addDataPoint(51.6526724295846f);
-    frequency_graph.addDataPoint(1.19159572392633f);
-    graph_container_page.add(frequency_graph);
-    image_graph_container.add(graph_container_page);
-    image_graph_container.setSelectedPage(0);
-
-    playlist_container.setXY(0, 0);
 
     init_modal_window.setBackground(touchgfx::BitmapId(BITMAP_MY_MODAL_BACKGROUND_ID), 150, 120);
     init_modal_window.setShadeColor(touchgfx::Color::getColorFrom24BitRGB(0, 0, 0));
@@ -108,8 +65,8 @@ AudioPlayerViewBase::AudioPlayerViewBase()
     add(next_track_button);
     add(previous_track_button);
     add(track_slider);
-    add(image_graph_container);
     add(playlist_container);
+    add(frequency_graph);
     add(init_modal_window);
 }
 

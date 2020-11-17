@@ -11,12 +11,9 @@
 #include <touchgfx/widgets/TiledImage.hpp>
 #include <touchgfx/widgets/ButtonWithIcon.hpp>
 #include <touchgfx/containers/Slider.hpp>
-#include <touchgfx/containers/SwipeContainer.hpp>
-#include <touchgfx/containers/Container.hpp>
-#include <touchgfx/widgets/ScalableImage.hpp>
-#include <touchgfx/widgets/graph/GraphWrapAndOverwrite.hpp>
-#include <touchgfx/widgets/graph/GraphElements.hpp>
 #include <gui/containers/ItemsListContainer.hpp>
+#include <touchgfx/widgets/graph/GraphWrapAndClear.hpp>
+#include <touchgfx/widgets/graph/GraphElements.hpp>
 #include <touchgfx/containers/ModalWindow.hpp>
 #include <touchgfx/Color.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
@@ -42,13 +39,9 @@ protected:
     touchgfx::ButtonWithIcon next_track_button;
     touchgfx::ButtonWithIcon previous_track_button;
     touchgfx::Slider track_slider;
-    touchgfx::SwipeContainer image_graph_container;
-    touchgfx::Container image_container_page;
-    touchgfx::ScalableImage track_image;
-    touchgfx::Container graph_container_page;
-    touchgfx::GraphWrapAndOverwrite<24> frequency_graph;
-    touchgfx::GraphElementHistogram frequency_graphHistogram1;
     ItemsListContainer playlist_container;
+    touchgfx::GraphWrapAndClear<24> frequency_graph;
+    touchgfx::GraphElementHistogram frequency_graphHistogram1;
     touchgfx::ModalWindow init_modal_window;
     touchgfx::TextArea textArea1;
 

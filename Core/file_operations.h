@@ -29,6 +29,26 @@ private:
 };
 
 
+class file_t
+{
+public:
+  enum class result_t {
+    success,
+    eof,
+    error,
+  };
+
+  file_t(const char* a_path, uint32_t a_access_mode);
+  ~file_t();
+
+  result_t read(uint8_t* a_buffer, uint32_t a_buffer_size);
+  FRESULT get_error();
+private:
+  FIL m_file;
+  FRESULT m_error;
+};
+
+
 }
 
 #endif // FILE_OPERATIONS_H

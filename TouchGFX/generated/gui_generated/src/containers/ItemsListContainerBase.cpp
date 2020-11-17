@@ -5,7 +5,8 @@
 #include "BitmapDatabase.hpp"
 #include <touchgfx/Color.hpp>
 
-ItemsListContainerBase::ItemsListContainerBase()
+ItemsListContainerBase::ItemsListContainerBase() :
+    ItemChoosenCallback(0)
 {
     setWidth(180);
     setHeight(480);

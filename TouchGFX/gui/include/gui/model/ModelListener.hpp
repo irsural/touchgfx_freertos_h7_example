@@ -15,20 +15,22 @@
 class ModelListener
 {
 public:
-    ModelListener() : model(0) {}
+  ModelListener() : model(0) {}
 
-    virtual ~ModelListener() {}
+  virtual ~ModelListener() {}
 
-    /**
-     * Sets the model pointer to point to the Model object. Called automatically
-     * when switching screen.
-     */
-    void bind(Model* m)
-    {
-        model = m;
-    }
+  /**
+   * Sets the model pointer to point to the Model object. Called automatically
+   * when switching screen.
+   */
+  void bind(Model* m)
+  {
+    model = m;
+  }
 protected:
-    Model* model;
+  Model* model;
+public:
+  virtual void presenter_tick() {};
 };
 
 #endif /* MODELLISTENER_HPP */

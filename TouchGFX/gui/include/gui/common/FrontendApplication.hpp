@@ -16,7 +16,7 @@ public:
     virtual ~FrontendApplication() { }
 
     virtual void handleClickEvent(const ClickEvent& evt);
-    
+
     virtual void handleTickEvent()
     {
         model.tick();

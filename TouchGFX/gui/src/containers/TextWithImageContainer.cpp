@@ -34,6 +34,11 @@ void TextWithImageContainer::setImage(const Bitmap& a_bmp)
   _image.setBitmap(a_bmp);
 }
 
+const std::vector<touchgfx::Unicode::UnicodeChar>& TextWithImageContainer::text() const
+{
+  return m_wildcard_buffer;
+}
+
 void TextWithImageContainer::set_item_clicked_callback(touchgfx::GenericCallback<TextWithImageContainer*>& a_callback)
 {
   m_item_clicked_callback = &a_callback;

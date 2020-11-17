@@ -16,6 +16,11 @@ public:
   void show_initializing();
   void close_initializing();
   void add_element_to_playlist(std::vector<touchgfx::Unicode::UnicodeChar> a_song_name);
+
+private:
+  Callback<AudioPlayerView, const std::vector<touchgfx::Unicode::UnicodeChar>&> play_song_callback;
+
+  void play_song(const std::vector<touchgfx::Unicode::UnicodeChar>& a_song_name);
 };
 
 #endif // AUDIOPLAYERVIEW_HPP

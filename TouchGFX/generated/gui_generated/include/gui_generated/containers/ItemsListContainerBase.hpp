@@ -17,9 +17,28 @@ public:
     virtual ~ItemsListContainerBase() {}
     virtual void initialize();
 
+    /*
+     * Custom Trigger Callback Setters
+     */
+    void setItemChoosenCallback(touchgfx::GenericCallback<const std::vector<touchgfx::Unicode::UnicodeChar>&>& callback)
+    {
+        this->ItemChoosenCallback = &callback;
+    }
+
 protected:
     FrontendApplication& application() {
         return *static_cast<FrontendApplication*>(touchgfx::Application::getInstance());
+    }
+
+    /*
+     * Custom Trigger Emitters
+     */
+    virtual void emitItemChoosenCallback(const std::vector<touchgfx::Unicode::UnicodeChar>& value)
+    {
+        if (ItemChoosenCallback && ItemChoosenCallback->isValid())
+        {
+            this->ItemChoosenCallback->execute(value);
+        }
     }
 
     /*
@@ -30,6 +49,11 @@ protected:
     touchgfx::ListLayout list_layout;
 
 private:
+
+    /*
+     * Custom Trigger Callback Declarations
+     */
+    touchgfx::GenericCallback<const std::vector<touchgfx::Unicode::UnicodeChar>&>* ItemChoosenCallback;
 
 };
 
