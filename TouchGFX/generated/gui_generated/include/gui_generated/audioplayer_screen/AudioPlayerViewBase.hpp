@@ -9,6 +9,7 @@
 #include <gui/audioplayer_screen/AudioPlayerPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/TiledImage.hpp>
+#include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/ButtonWithIcon.hpp>
 #include <touchgfx/containers/Slider.hpp>
 #include <gui/containers/ItemsListContainer.hpp>
@@ -25,6 +26,29 @@ public:
     virtual ~AudioPlayerViewBase() {}
     virtual void setupScreen();
 
+    /*
+     * Virtual Action Handlers
+     */
+    virtual void play_button_clicked()
+    {
+        // Override and implement this function in AudioPlayer
+    }
+
+    virtual void pause_button_clicked()
+    {
+        // Override and implement this function in AudioPlayer
+    }
+
+    virtual void track_slider_value_changed(int value)
+    {
+        // Override and implement this function in AudioPlayer
+    }
+
+    virtual void volume_slider_value_changed(int value)
+    {
+        // Override and implement this function in AudioPlayer
+    }
+
 protected:
     FrontendApplication& application() {
         return *static_cast<FrontendApplication*>(touchgfx::Application::getInstance());
@@ -35,9 +59,12 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::TiledImage background_tile;
-    touchgfx::ButtonWithIcon play_pause_button;
+    touchgfx::Image volume_icon;
+    touchgfx::ButtonWithIcon pause_button;
+    touchgfx::ButtonWithIcon play_button;
     touchgfx::ButtonWithIcon next_track_button;
     touchgfx::ButtonWithIcon previous_track_button;
+    touchgfx::Slider volume_slider;
     touchgfx::Slider track_slider;
     ItemsListContainer playlist_container;
     touchgfx::GraphWrapAndClear<24> frequency_graph;
@@ -46,6 +73,18 @@ protected:
     touchgfx::TextArea textArea1;
 
 private:
+
+    /*
+     * Callback Declarations
+     */
+    touchgfx::Callback<AudioPlayerViewBase, const touchgfx::AbstractButton&> buttonCallback;
+    touchgfx::Callback<AudioPlayerViewBase, const touchgfx::Slider&, int> sliderValueConfirmedCallback;
+
+    /*
+     * Callback Handler Declarations
+     */
+    void buttonCallbackHandler(const touchgfx::AbstractButton& src);
+    void sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value);
 
 };
 

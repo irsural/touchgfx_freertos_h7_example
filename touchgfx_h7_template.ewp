@@ -1461,6 +1461,9 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Next_arrow_32.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Pause_32.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Icons_Play_32.cpp</name>
             </file>
             <file>
@@ -1473,6 +1476,15 @@
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Horizontal_Medium_Slider_Round_fill.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Blue_Textures_gplaypattern.cpp</name>
             </file>
             <file>
@@ -1483,6 +1495,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_close_button_pressed.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\TouchGFX\generated\images\src\__designer\image_Dark_Icons_Sound_48.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\TouchGFX\generated\images\src\image_info_icon.cpp</name>

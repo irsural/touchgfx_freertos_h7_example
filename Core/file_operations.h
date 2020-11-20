@@ -45,6 +45,7 @@ public:
 
   FRESULT get_error();
   std::string name();
+  size_t size();
 private:
   FIL m_file;
   std::string m_filename;

@@ -17,6 +17,15 @@ public:
   void close_initializing();
   void add_element_to_playlist(std::vector<touchgfx::Unicode::UnicodeChar> a_song_name);
 
+  virtual void play_button_clicked() override;
+  virtual void pause_button_clicked() override;
+
+  void set_play_state();
+  void set_pause_state();
+
+  void set_track_slider(double a_value);
+  virtual void track_slider_value_changed(int a_value) override;
+  virtual void volume_slider_value_changed(int a_value) override;
 private:
   Callback<AudioPlayerView, const std::vector<touchgfx::Unicode::UnicodeChar>&> play_song_callback;
 

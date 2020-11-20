@@ -16,19 +16,22 @@ private:
 
   void sai_init();
   void audio_codec_init();
+
+  bool start_sending_data(uint8_t* a_data, size_t a_data_size);
+  bool pause_sending_data();
+  bool resume_sending_data();
+  bool stop_sending_data();
 public:
   audio_play_t();
 
   DMA_HandleTypeDef* dma_sai_handle();
 
-  bool play();
+  bool play(uint8_t* a_data, size_t a_data_size);
   bool pause();
   bool resume();
   bool stop();
-  bool start_sending_data(uint8_t* a_data, size_t a_data_size);
-  bool pause_sending_data();
-  bool resume_sending_data();
-  bool stop_sending_data();
+
+  void set_volume(int a_volume);
 };
 
 #endif // AUDIO_PLAY_H

@@ -6,7 +6,9 @@
 #include "BitmapDatabase.hpp"
 #include <texts/TextKeysAndLanguages.hpp>
 
-AudioPlayerViewBase::AudioPlayerViewBase()
+AudioPlayerViewBase::AudioPlayerViewBase() :
+    buttonCallback(this, &AudioPlayerViewBase::buttonCallbackHandler),
+    sliderValueConfirmedCallback(this, &AudioPlayerViewBase::sliderValueConfirmedCallbackHandler)
 {
 
     __background.setPosition(0, 0, 640, 480);
@@ -16,28 +18,46 @@ AudioPlayerViewBase::AudioPlayerViewBase()
     background_tile.setPosition(0, 0, 640, 480);
     background_tile.setOffset(0, 0);
 
-    play_pause_button.setXY(390, 382);
-    play_pause_button.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_PRESSED_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_PLAY_32_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_PLAY_32_ID));
-    play_pause_button.setIconXY(20, 15);
+    volume_icon.setXY(567, 381);
+    volume_icon.setBitmap(touchgfx::Bitmap(BITMAP_DARK_ICONS_SOUND_48_ID));
 
-    next_track_button.setXY(490, 382);
+    pause_button.setXY(344, 375);
+    pause_button.setVisible(false);
+    pause_button.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_PRESSED_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_PAUSE_32_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_PAUSE_32_ID));
+    pause_button.setIconXY(18, 15);
+    pause_button.setAction(buttonCallback);
+
+    play_button.setXY(344, 375);
+    play_button.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_PRESSED_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_PLAY_32_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_PLAY_32_ID));
+    play_button.setIconXY(22, 14);
+    play_button.setAction(buttonCallback);
+
+    next_track_button.setXY(444, 375);
     next_track_button.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_PRESSED_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_NEXT_ARROW_32_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_NEXT_ARROW_32_ID));
-    next_track_button.setIconXY(22, 15);
+    next_track_button.setIconXY(24, 14);
 
-    previous_track_button.setXY(290, 382);
+    previous_track_button.setXY(244, 375);
     previous_track_button.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_ICON_BUTTON_PRESSED_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_BACK_ARROW_32_ID), touchgfx::Bitmap(BITMAP_BLUE_ICONS_BACK_ARROW_32_ID));
-    previous_track_button.setIconXY(22, 15);
+    previous_track_button.setIconXY(19, 14);
 
-    track_slider.setXY(241, 309);
+    volume_slider.setXY(575, 175);
+    volume_slider.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_SLIDER_VERTICAL_SMALL_SLIDER3_VERTICAL_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_BLUE_SLIDER_VERTICAL_SMALL_SLIDER3_VERTICAL_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_BLUE_SLIDER_VERTICAL_SMALL_INDICATORS_SLIDER3_VERTICAL_ROUND_NOB_ID));
+    volume_slider.setupVerticalSlider(7, 3, 0, 0, 125);
+    volume_slider.setValueRange(0, 100);
+    volume_slider.setValue(35);
+    volume_slider.setStopValueCallback(sliderValueConfirmedCallback);
+
+    track_slider.setXY(195, 302);
     track_slider.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_SLIDER_HORIZONTAL_MEDIUM_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_BLUE_SLIDER_HORIZONTAL_MEDIUM_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_BLUE_SLIDER_HORIZONTAL_MEDIUM_INDICATORS_SLIDER_ROUND_NOB_ID));
     track_slider.setupHorizontalSlider(2, 19, 2, 0, 310);
-    track_slider.setValueRange(0, 100);
+    track_slider.setValueRange(0, 1000);
     track_slider.setValue(0);
+    track_slider.setStopValueCallback(sliderValueConfirmedCallback);
 
     playlist_container.setXY(0, 0);
 
     frequency_graph.setScale(1);
-    frequency_graph.setPosition(295, 23, 250, 250);
+    frequency_graph.setPosition(249, 16, 250, 250);
     frequency_graph.setGraphAreaMargin(0, 0, 0, 0);
     frequency_graph.setGraphAreaPadding(0, 0, 0, 0);
     frequency_graph.setGraphRangeY(0, 100);
@@ -61,9 +81,12 @@ AudioPlayerViewBase::AudioPlayerViewBase()
 
     add(__background);
     add(background_tile);
-    add(play_pause_button);
+    add(volume_icon);
+    add(pause_button);
+    add(play_button);
     add(next_track_button);
     add(previous_track_button);
+    add(volume_slider);
     add(track_slider);
     add(playlist_container);
     add(frequency_graph);
@@ -73,4 +96,40 @@ AudioPlayerViewBase::AudioPlayerViewBase()
 void AudioPlayerViewBase::setupScreen()
 {
     playlist_container.initialize();
+}
+
+void AudioPlayerViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
+{
+    if (&src == &pause_button)
+    {
+        //pause_button_clicked_int
+        //When pause_button clicked call virtual function
+        //Call pause_button_clicked
+        pause_button_clicked();
+    }
+    else if (&src == &play_button)
+    {
+        //play_button_clicked_int
+        //When play_button clicked call virtual function
+        //Call play_button_clicked
+        play_button_clicked();
+    }
+}
+
+void AudioPlayerViewBase::sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value)
+{
+    if (&src == &volume_slider)
+    {
+        //volume_slider_value_changed_int
+        //When volume_slider value confirmed call virtual function
+        //Call volume_slider_value_changed
+        volume_slider_value_changed(value);
+    }
+    else if (&src == &track_slider)
+    {
+        //track_slider_value_changed_int
+        //When track_slider value confirmed call virtual function
+        //Call track_slider_value_changed
+        track_slider_value_changed(value);
+    }
 }

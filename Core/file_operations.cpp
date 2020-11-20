@@ -50,14 +50,19 @@ fatfs::file_t::file_t(const char* a_path, uint32_t a_access_mode) :
   m_error = f_open(&m_file, a_path, a_access_mode);
 }
 
+FRESULT fatfs::file_t::get_error()
+{
+  return m_error;
+}
+
 std::string fatfs::file_t::name()
 {
   return m_filename;
 }
 
-FRESULT fatfs::file_t::get_error()
+size_t fatfs::file_t::size()
 {
-  return m_error;
+  return f_size(&m_file);
 }
 
 fatfs::file_t::~file_t()

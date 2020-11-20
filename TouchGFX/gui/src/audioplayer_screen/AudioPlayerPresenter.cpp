@@ -11,6 +11,7 @@ AudioPlayerPresenter::AudioPlayerPresenter(AudioPlayerView& v)
     m_read_folred_queue(xQueueCreate(5, sizeof(char*))),
     m_read_wav_files_thread(nullptr),
     m_play_wav_cmd_queue(xQueueCreate(5, sizeof(play_wav_thread_t::cmd_t))),
+    m_percents_played_queue(xQueueCreate(5, sizeof(double))),
     m_play_wav_thread(nullptr)
 {
 
@@ -28,13 +29,25 @@ void AudioPlayerPresenter::initialize_file_system()
   create_thread(*m_read_wav_files_thread.get(), "read_wavs", osPriorityAboveNormal, 1024);
   xQueueSend(m_read_folred_queue, static_cast<const void*>(&fatfs::sd::drive), portMAX_DELAY);
 
-  m_play_wav_thread.reset(new play_wav_thread_t(m_play_wav_cmd_queue));
+  m_play_wav_thread.reset(new play_wav_thread_t(m_play_wav_cmd_queue, m_percents_played_queue));
   create_thread(*m_play_wav_thread.get(), "play_wav", osPriorityHigh, 1024);
 }
 
 void AudioPlayerPresenter::deactivate()
 {
   vQueueDelete(m_read_folred_queue);
+}
+
+void AudioPlayerPresenter::set_track_position(int a_track_position)
+{
+  play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::set_position, a_track_position };
+  xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
+}
+
+void AudioPlayerPresenter::set_volume(int a_volume)
+{
+  play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::set_volume, a_volume };
+  xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
 }
 
 void AudioPlayerPresenter::presenter_tick()
@@ -46,18 +59,34 @@ void AudioPlayerPresenter::presenter_tick()
     m_read_wav_files_thread->clear_names();
     view.close_initializing();
   }
+
+  double percents_played = 0;
+  if (xQueueReceive(m_percents_played_queue, static_cast<void*>(&percents_played), 0) == pdTRUE) {
+    view.set_track_slider(percents_played);
+  }
 }
 
 void AudioPlayerPresenter::start_playback(const std::vector<touchgfx::Unicode::UnicodeChar>& a_song_name)
 {
-//  xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(play_wav_thread_t::cmd_t::pause), portMAX_DELAY);
   m_play_wav_thread->set_wav_file(unicode_to_oem866(a_song_name));
 
-  play_wav_thread_t::cmd_t cmd = play_wav_thread_t::cmd_t::play;
+  play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::play, 0 };
   xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
 
-//  m_play_wav_thread->open_wav(unicode_to_oem866(a_song_name).c_str());
-//  m_play_wav_thread->play();
-
   DBG_MSG("play " << unicode_to_oem866(a_song_name));
+
+  view.set_play_state();
+}
+
+bool AudioPlayerPresenter::resume()
+{
+  play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::resume, 0 };
+  xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
+  return m_play_wav_thread->is_playing();
+}
+
+void AudioPlayerPresenter::pause()
+{
+  play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::pause, 0 };
+  xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
 }

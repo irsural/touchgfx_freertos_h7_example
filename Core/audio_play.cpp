@@ -15,8 +15,9 @@ audio_play_t::audio_play_t() :
   audio_codec_init();
 }
 
-bool audio_play_t::play()
+bool audio_play_t::play(uint8_t* a_data, size_t a_data_size)
 {
+  start_sending_data(a_data, a_data_size);
   if (m_audio_driver->Play(&m_wm8994) < 0) {
     DBG_MSG("play_wav_thread_t Play error");
     return false;
@@ -31,12 +32,13 @@ bool audio_play_t::pause()
     DBG_MSG("play_wav_thread_t Pause error");
     return false;
   } else {
-    return true;
+    return pause_sending_data();
   }
 }
 
 bool audio_play_t::resume()
 {
+  resume_sending_data();
   if (m_audio_driver->Resume(&m_wm8994) < 0) {
     DBG_MSG("play_wav_thread_t Resume error");
     return false;
@@ -51,6 +53,7 @@ bool audio_play_t::stop()
     DBG_MSG("play_wav_thread_t Stop error");
     return false;
   } else {
+    stop_sending_data();
     return true;
   }
 }
@@ -93,6 +96,11 @@ bool audio_play_t::stop_sending_data()
   } else {
     return true;
   }
+}
+
+void audio_play_t::set_volume(int a_volume)
+{
+  WM8994_SetVolume(&m_wm8994, VOLUME_OUTPUT, a_volume);
 }
 
 void audio_play_t::sai_init()

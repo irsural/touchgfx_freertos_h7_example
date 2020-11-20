@@ -37,6 +37,11 @@ public:
     void initialize_file_system();
 
     void start_playback(const std::vector<touchgfx::Unicode::UnicodeChar>& a_song_name);
+    bool resume();
+    void pause();
+
+    void set_track_position(int a_track_position);
+    void set_volume(int a_volume);
 
 private:
     AudioPlayerPresenter();
@@ -47,6 +52,7 @@ private:
     std::shared_ptr<read_dir_thread_t> m_read_wav_files_thread;
 
     QueueHandle_t m_play_wav_cmd_queue;
+    QueueHandle_t m_percents_played_queue;
     std::shared_ptr<play_wav_thread_t> m_play_wav_thread;
 };
 

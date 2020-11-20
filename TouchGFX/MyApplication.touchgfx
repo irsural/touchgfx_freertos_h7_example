@@ -23,21 +23,61 @@
             "Moveable": false
           },
           {
+            "Type": "Image",
+            "RelativeFilename": "__designer\\Dark_Icons_Sound_48.png",
+            "Alpha": 255,
+            "Name": "volume_icon",
+            "X": 567,
+            "Y": 381,
+            "Width": 50,
+            "Height": 48,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Pressed": "__designer\\Blue_Buttons_Round_icon_button_pressed.png",
+            "Released": "__designer\\Blue_Buttons_Round_icon_button.png",
+            "Alpha": 255,
+            "IconPressed": "__designer\\Blue_Icons_Pause_32.png",
+            "IconReleased": "__designer\\Blue_Icons_Pause_32.png",
+            "IconX": 18,
+            "IconY": 15,
+            "IconHeight": 30,
+            "IconWidth": 24,
+            "ButtonStyle": "Style5",
+            "Name": "pause_button",
+            "X": 344,
+            "Y": 375,
+            "Width": 60,
+            "Height": 60,
+            "Visible": false,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
             "Type": "ButtonWithIcon",
             "Pressed": "__designer\\Blue_Buttons_Round_icon_button_pressed.png",
             "Released": "__designer\\Blue_Buttons_Round_icon_button.png",
             "Alpha": 255,
             "IconPressed": "__designer\\Blue_Icons_Play_32.png",
             "IconReleased": "__designer\\Blue_Icons_Play_32.png",
-            "IconX": 20,
-            "IconY": 15,
+            "IconX": 22,
+            "IconY": 14,
             "IconHeight": 30,
             "IconWidth": 21,
             "ButtonStyle": "Style5",
             "IconStyle": "Icon45",
-            "Name": "play_pause_button",
-            "X": 390,
-            "Y": 382,
+            "Name": "play_button",
+            "X": 344,
+            "Y": 375,
             "Width": 60,
             "Height": 60,
             "Visible": true,
@@ -54,15 +94,15 @@
             "Alpha": 255,
             "IconPressed": "__designer\\Blue_Icons_Next_arrow_32.png",
             "IconReleased": "__designer\\Blue_Icons_Next_arrow_32.png",
-            "IconX": 22,
-            "IconY": 15,
+            "IconX": 24,
+            "IconY": 14,
             "IconHeight": 30,
             "IconWidth": 17,
             "ButtonStyle": "Style5",
             "IconStyle": "Icon39",
             "Name": "next_track_button",
-            "X": 490,
-            "Y": 382,
+            "X": 444,
+            "Y": 375,
             "Width": 60,
             "Height": 60,
             "Visible": true,
@@ -79,17 +119,43 @@
             "Alpha": 255,
             "IconPressed": "__designer\\Blue_Icons_Back_arrow_32.png",
             "IconReleased": "__designer\\Blue_Icons_Back_arrow_32.png",
-            "IconX": 22,
-            "IconY": 15,
+            "IconX": 19,
+            "IconY": 14,
             "IconHeight": 30,
             "IconWidth": 17,
             "ButtonStyle": "Style5",
             "IconStyle": "Icon5",
             "Name": "previous_track_button",
-            "X": 290,
-            "Y": 382,
+            "X": 244,
+            "Y": 375,
             "Width": 60,
             "Height": 60,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Slider",
+            "IsHorizontalSlider": false,
+            "BackgroundUnselected": "__designer\\Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.png",
+            "BackgroundSelected": "__designer\\Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.png",
+            "Indicator": "__designer\\Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.png",
+            "BackgroundX": 7,
+            "BackgroundY": 3,
+            "IndicatorPos": 0,
+            "IndicatorMax": 125,
+            "IndicatorMin": 0,
+            "ValueMax": 100,
+            "ValueMin": 0,
+            "InitValue": 35,
+            "Name": "volume_slider",
+            "X": 575,
+            "Y": 175,
+            "Width": 34,
+            "Height": 179,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -108,15 +174,14 @@
             "IndicatorPos": 2,
             "IndicatorMax": 310,
             "IndicatorMin": 0,
-            "ValueMax": 100,
+            "ValueMax": 1000,
             "ValueMin": 0,
             "InitValue": 0,
-            "Style": "Style7",
             "Name": "track_slider",
-            "X": 241,
-            "Y": 309,
+            "X": 195,
+            "Y": 302,
             "Width": 358,
-            "Height": 52,
+            "Height": 50,
             "Visible": true,
             "LockPosition": false,
             "Draggable": false,
@@ -177,8 +242,8 @@
               }
             ],
             "Name": "frequency_graph",
-            "X": 295,
-            "Y": 23,
+            "X": 249,
+            "Y": 16,
             "Width": 250,
             "Height": 250,
             "Visible": true,
@@ -242,7 +307,56 @@
             "Moveable": false
           }
         ],
-        "Interactions": [],
+        "Interactions": [
+          {
+            "InteractionName": "play_button_clicked_int",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "play_button"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "play_button_clicked"
+            }
+          },
+          {
+            "InteractionName": "pause_button_clicked_int",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "pause_button"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "pause_button_clicked"
+            }
+          },
+          {
+            "InteractionName": "track_slider_value_changed_int",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerSliderValueConfirmed",
+              "TriggerComponent": "track_slider"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "track_slider_value_changed"
+            }
+          },
+          {
+            "InteractionName": "volume_slider_value_changed_int",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerSliderValueConfirmed",
+              "TriggerComponent": "volume_slider"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "volume_slider_value_changed"
+            }
+          }
+        ],
         "Name": "AudioPlayer",
         "OverrideDefaultBufferSize": false,
         "CanvasBufferSize": 0
