@@ -62,7 +62,12 @@ void AudioPlayerPresenter::presenter_tick()
 
   double percents_played = 0;
   if (xQueueReceive(m_percents_played_queue, static_cast<void*>(&percents_played), 0) == pdTRUE) {
-    view.set_track_slider(percents_played);
+    if (percents_played == play_wav_thread_t::eof_value) {
+      view.set_track_slider(0);
+      view.set_pause_state();
+    } else {
+      view.set_track_slider(percents_played);
+    }
   }
 }
 
@@ -80,9 +85,9 @@ void AudioPlayerPresenter::start_playback(const std::vector<touchgfx::Unicode::U
 
 bool AudioPlayerPresenter::resume()
 {
-  play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::resume, 0 };
+  play_wav_thread_t::cmd_t cmd { play_wav_thread_t::cmd_type_t::resume, 0 };
   xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
-  return m_play_wav_thread->is_playing();
+  return true;
 }
 
 void AudioPlayerPresenter::pause()

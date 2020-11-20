@@ -50,6 +50,7 @@ void AudioPlayerView::set_play_state()
 void AudioPlayerView::set_track_slider(double a_value)
 {
   track_slider.setValue(static_cast<int>(round(a_value * 10)));
+  track_slider.invalidate();
 }
 
 void AudioPlayerView::track_slider_value_changed(int a_value)

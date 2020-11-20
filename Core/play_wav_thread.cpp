@@ -17,7 +17,7 @@ play_wav_thread_t::play_wav_thread_t(QueueHandle_t a_cmd_queue, SemaphoreHandle_
   // Лень разбирать заголовки wav, поэтому просто возьмем с запасом
   m_wav_header_size(0x12C),
   m_audio_buffer(static_cast<uint8_t*>(std::aligned_alloc(32, m_audio_buffer_size))),
-  m_playing(false),
+  m_play_state(play_state_t::stopped),
   m_wav_name(),
   m_already_read_data_pos(0),
   m_track_size(0),
@@ -44,9 +44,14 @@ const std::string& play_wav_thread_t::get_wav_file()
   return m_wav_name;
 }
 
-void play_wav_thread_t::play()
+bool play_wav_thread_t::play()
 {
-  cfg_t::instance().audio_player.play(m_audio_buffer, m_audio_buffer_size / 2);
+  bool file_opened = open_wav_file(m_wav_name);
+  if (file_opened) {
+    return cfg_t::instance().audio_player.play(m_audio_buffer, m_audio_buffer_size / 2);
+  } else {
+    return false;
+  }
 }
 
 void play_wav_thread_t::stop()
@@ -56,20 +61,7 @@ void play_wav_thread_t::stop()
 
 bool play_wav_thread_t::resume()
 {
-  bool success = false;
-  if (m_wav_name != "") {
-    if (m_file != nullptr) {
-      if (!m_playing) {
-        success = cfg_t::instance().audio_player.resume();
-      } else {
-        success = true;
-      }
-    } else {
-      play();
-      success = true;
-    }
-  }
-  return success;
+  return cfg_t::instance().audio_player.resume();
 }
 
 void play_wav_thread_t::pause()
@@ -77,26 +69,30 @@ void play_wav_thread_t::pause()
   cfg_t::instance().audio_player.pause();
 }
 
-bool play_wav_thread_t::is_playing()
+play_wav_thread_t::play_state_t play_wav_thread_t::get_play_state()
 {
-  return m_playing;
+  return m_play_state;
 }
 
 bool play_wav_thread_t::open_wav_file(const std::string& a_filename)
 {
-  m_file.reset(new fatfs::file_t(a_filename.c_str(), FA_READ));
-  m_file->seek(m_wav_header_size);
-  m_file->read(m_audio_buffer, m_audio_buffer_size);
+  if (m_wav_name != "") {
+    m_file.reset(new fatfs::file_t(a_filename.c_str(), FA_READ));
+    m_file->seek(m_wav_header_size);
+    m_file->read(m_audio_buffer, m_audio_buffer_size);
 
-  m_track_size = m_file->size() - m_wav_header_size;
-  m_bytes_read = m_audio_buffer_size / 2;
-  m_bytes_played_percents = static_cast<double>(m_bytes_read) / m_track_size * 100;
+    m_track_size = m_file->size() - m_wav_header_size;
+    m_bytes_read = m_audio_buffer_size / 2;
+    m_bytes_played_percents = static_cast<double>(m_bytes_read) / m_track_size * 100;
 
-  if (m_file->get_error() != FR_OK) {
-    DBG_MSG("open_wav_file open file error");
-    return false;
+    if (m_file->get_error() != FR_OK) {
+      DBG_MSG("open_wav_file open file error");
+      return false;
+    } else {
+      return true;
+    }
   } else {
-    return true;
+    return false;
   }
 }
 
@@ -115,26 +111,38 @@ void play_wav_thread_t::task()
 
       switch(m_current_cmd_type) {
         case cmd_type_t::play: {
-          if (m_playing) {
+          if (m_play_state != play_state_t::stopped) {
+            m_play_state = play_state_t::stopped;
             stop();
           }
-          bool file_opened = open_wav_file(m_wav_name);
-          if (file_opened) {
-            m_playing = true;
-            play();
+          if (play()) {
+            m_play_state = play_state_t::playing;
+          } else {
+            m_current_cmd_type = cmd_type_t::none;
           }
         } break;
 
         case cmd_type_t::resume: {
-          m_playing = resume();
-          if (!m_playing) {
+          if (m_play_state == play_state_t::paused) {
+            if (resume()) {
+              m_play_state = play_state_t::playing;
+            } else {
+              m_current_cmd_type = cmd_type_t::none;
+            }
+          } else if (m_play_state == play_state_t::stopped){
+            if (play()) {
+              m_play_state = play_state_t::playing;
+            } else {
+              m_current_cmd_type = cmd_type_t::none;
+            }
+          } else {
             m_current_cmd_type = cmd_type_t::none;
           }
         } break;
 
         case cmd_type_t::pause: {
           pause();
-          m_playing = false;
+          m_play_state = play_state_t::paused;
           m_current_cmd_type = cmd_type_t::none;
         } break;
 
@@ -155,14 +163,14 @@ void play_wav_thread_t::task()
 
         case cmd_type_t::set_volume: {
           cfg_t::instance().audio_player.set_volume(cmd.value);
-          if (!m_playing) {
+          if (m_play_state != play_state_t::playing) {
             m_current_cmd_type = cmd_type_t::none;
           }
         } break;
       }
     }
 
-    if (m_playing) {
+    if (m_play_state == play_state_t::playing) {
       if (xQueueReceive(dma_queue, static_cast<void*>(&dma_cb), portMAX_DELAY) == pdTRUE) {
 
         if (dma_cb == dma_callback_t::complete) {
@@ -189,7 +197,10 @@ void play_wav_thread_t::task()
           }
           xQueueReset(dma_queue);
           m_file.reset();
-          pause();
+          stop();
+          m_play_state = play_state_t::stopped;
+
+          xQueueSend(m_percents_played_queue, static_cast<const void*>(&eof_value), 0);
           m_current_cmd_type = cmd_type_t::none;
         }
 
