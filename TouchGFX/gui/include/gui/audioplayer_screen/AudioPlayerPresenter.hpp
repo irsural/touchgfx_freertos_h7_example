@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "read_dir_thread.h"
+#include "play_wav_thread.h"
 
 using namespace touchgfx;
 
@@ -44,6 +45,9 @@ private:
 
     QueueHandle_t m_read_folred_queue;
     std::shared_ptr<read_dir_thread_t> m_read_wav_files_thread;
+
+    QueueHandle_t m_play_wav_cmd_queue;
+    std::shared_ptr<play_wav_thread_t> m_play_wav_thread;
 };
 
 #endif // AUDIOPLAYERPRESENTER_HPP

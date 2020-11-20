@@ -40,11 +40,14 @@ public:
 
   file_t(const char* a_path, uint32_t a_access_mode);
   ~file_t();
-
+  void seek(size_t a_byte_offset);
   result_t read(uint8_t* a_buffer, uint32_t a_buffer_size);
+
   FRESULT get_error();
+  std::string name();
 private:
   FIL m_file;
+  std::string m_filename;
   FRESULT m_error;
 };
 

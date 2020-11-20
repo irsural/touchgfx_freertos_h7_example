@@ -40,13 +40,13 @@
 
 /* IO class usage define */
 #define USE_BSP_IO_CLASS                    1U
-   
+
 /* LCD controllers defines */
 #define LCD_LAYER_0_ADDRESS                 0xD0000000U
 #define LCD_LAYER_1_ADDRESS                 0xD0200000U
 
 /* Audio codecs defines */
-#define USE_AUDIO_CODEC_WM8994              0U
+#define USE_AUDIO_CODEC_WM8994              1U
 #define DEFAULT_AUDIO_IN_BUFFER_SIZE        2048U
 #define USE_BSP_CPU_CACHE_MAINTENANCE       1U
 

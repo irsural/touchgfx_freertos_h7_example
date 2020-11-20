@@ -56,3 +56,8 @@ void DMA2D_IRQHandler(void)
 {
   HAL_DMA2D_IRQHandler(cfg_t::instance().dma2d_handle());
 }
+
+void DMA2_Stream6_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(cfg_t::instance().audio_player.dma_sai_handle());
+}

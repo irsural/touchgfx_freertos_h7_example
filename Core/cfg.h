@@ -7,11 +7,11 @@
 
 #include <stm32h7xx_hal.h>
 #include <stm32h743i_eval_sd.h>
-#include "FreeRTOS.h"
-#include "semphr.h"
+#include <FreeRTOS.h>
+#include <semphr.h>
 
 #include "defs.h"
-
+#include "audio_play.h"
 
 #define VSYNC_FREQ_Pin GPIO_PIN_10
 #define VSYNC_FREQ_GPIO_Port GPIOF
@@ -21,6 +21,18 @@
 #define LCD_BL_CTRL_GPIO_Port GPIOA
 #define RENDER_TIME_Pin GPIO_PIN_4
 #define RENDER_TIME_GPIO_Port GPIOA
+
+
+class cfg_t;
+// Класс для вызова функций инициализации cfg_t в списке инициализации cfg_t.
+// Нужно, потому что некоторые классы инициализируются в списке инициализации cfg_t и в это время уже должны
+// быть вызваны некоторые функции, такие, как cfg_t::gpio_init
+class cfg_initializer_t
+{
+private:
+  cfg_initializer_t(cfg_t* a_cfg);
+  friend class cfg_t;
+};
 
 class cfg_t
 {
@@ -40,6 +52,8 @@ private:
   SemaphoreHandle_t m_uart_mutex;
 
   cfg_t();
+  cfg_initializer_t cfg_initializer;
+  friend class cfg_initializer_t;
 
   void gpio_init();
   void crc_init();
@@ -54,6 +68,8 @@ public:
     static cfg_t cfg_instance;
     return cfg_instance;
   }
+
+  audio_play_t audio_player;
 
   LTDC_HandleTypeDef* ltdc_handle();
   DMA2D_HandleTypeDef* dma2d_handle();
