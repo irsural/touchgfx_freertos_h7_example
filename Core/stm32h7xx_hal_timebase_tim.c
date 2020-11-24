@@ -2,7 +2,6 @@
 #include "stm32h7xx_hal_tim.h"
 
 
-
 HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 {
   HAL_NVIC_SetPriority(TIM6_DAC_IRQn, TickPriority ,0);

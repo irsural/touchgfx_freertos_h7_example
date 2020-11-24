@@ -1613,6 +1613,12 @@
             <group>
                 <name>Threads</name>
                 <file>
+                    <name>$PROJ_DIR$\Core\fft_thread.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\Core\fft_thread.h</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\Core\play_wav_thread.cpp</name>
                 </file>
                 <file>

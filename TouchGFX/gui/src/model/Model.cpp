@@ -30,6 +30,8 @@ void Model::show_mcu_load()
     m_debug_str = "MCU Load(" + std::to_string(m_debug_tick / 1000) + "): " + std::to_string(mcu_load);
     touchgfx::Application::getDebugPrinter()->setString(m_debug_str.c_str());
     touchgfx::Application::invalidateDebugRegion();
+
+    DBG_MSG(xPortGetMinimumEverFreeHeapSize());
   }
   #endif // TEMPLATE_DEBUG
 }

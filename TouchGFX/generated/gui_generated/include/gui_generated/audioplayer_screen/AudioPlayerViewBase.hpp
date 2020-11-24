@@ -67,7 +67,7 @@ protected:
     touchgfx::Slider volume_slider;
     touchgfx::Slider track_slider;
     ItemsListContainer playlist_container;
-    touchgfx::GraphWrapAndClear<24> frequency_graph;
+    touchgfx::GraphWrapAndClear<32> frequency_graph;
     touchgfx::GraphElementHistogram frequency_graphHistogram1;
     touchgfx::ModalWindow init_modal_window;
     touchgfx::TextArea textArea1;

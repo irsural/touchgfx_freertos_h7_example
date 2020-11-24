@@ -26,6 +26,7 @@ public:
   void set_track_slider(double a_value);
   virtual void track_slider_value_changed(int a_value) override;
   virtual void volume_slider_value_changed(int a_value) override;
+  touchgfx::GraphWrapAndClear<32>& graph() {return frequency_graph; };
 private:
   Callback<AudioPlayerView, const std::vector<touchgfx::Unicode::UnicodeChar>&> play_song_callback;
 

@@ -56,15 +56,15 @@ AudioPlayerViewBase::AudioPlayerViewBase() :
 
     playlist_container.setXY(0, 0);
 
-    frequency_graph.setScale(1);
-    frequency_graph.setPosition(249, 16, 250, 250);
+    frequency_graph.setScale(10);
+    frequency_graph.setPosition(239, 29, 271, 250);
     frequency_graph.setGraphAreaMargin(0, 0, 0, 0);
     frequency_graph.setGraphAreaPadding(0, 0, 0, 0);
     frequency_graph.setGraphRangeY(0, 100);
 
-    frequency_graphHistogram1.setScale(1);
+    frequency_graphHistogram1.setScale(10);
     frequency_graphHistogram1.setColor(touchgfx::Color::getColorFrom24BitRGB(20, 151, 197));
-    frequency_graphHistogram1.setBarWidth(9);
+    frequency_graphHistogram1.setBarWidth(7);
     frequency_graphHistogram1.setBaseline(0);
     frequency_graph.addGraphElement(frequency_graphHistogram1);
 

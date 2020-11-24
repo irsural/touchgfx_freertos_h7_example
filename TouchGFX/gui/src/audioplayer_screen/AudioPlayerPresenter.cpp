@@ -12,7 +12,11 @@ AudioPlayerPresenter::AudioPlayerPresenter(AudioPlayerView& v)
     m_read_wav_files_thread(nullptr),
     m_play_wav_cmd_queue(xQueueCreate(5, sizeof(play_wav_thread_t::cmd_t))),
     m_percents_played_queue(xQueueCreate(5, sizeof(double))),
-    m_play_wav_thread(nullptr)
+    m_play_wav_thread(nullptr),
+    m_fft_samples_ready_smph(xSemaphoreCreateBinary()),
+    m_fft_samples_processed_smph(xSemaphoreCreateBinary()),
+    m_fft_done_smph(xSemaphoreCreateBinary()),
+    m_fft_thread(nullptr)
 {
 
 }
@@ -26,11 +30,16 @@ void AudioPlayerPresenter::activate()
 void AudioPlayerPresenter::initialize_file_system()
 {
   m_read_wav_files_thread.reset(new read_dir_thread_t(m_read_folred_queue, ".wav", model->get_gui_thread()));
-  create_thread(*m_read_wav_files_thread.get(), "read_wavs", osPriorityAboveNormal, 1024);
+  create_thread(*m_read_wav_files_thread.get(), "read_wavs", osPriorityAboveNormal, 512);
   xQueueSend(m_read_folred_queue, static_cast<const void*>(&fatfs::sd::drive), portMAX_DELAY);
 
+  m_fft_thread.reset(new fft_thread_t(m_fft_samples_ready_smph, m_fft_samples_processed_smph, m_fft_done_smph));
+  create_thread(*m_fft_thread.get(), "fft", osPriorityBelowNormal, 512);
+
   m_play_wav_thread.reset(new play_wav_thread_t(m_play_wav_cmd_queue, m_percents_played_queue));
-  create_thread(*m_play_wav_thread.get(), "play_wav", osPriorityHigh, 1024);
+  m_play_wav_thread->set_up_fft(m_fft_samples_ready_smph, m_fft_samples_processed_smph,
+    m_fft_thread->get_samlpes_buffer());
+  create_thread(*m_play_wav_thread.get(), "play_wav", osPriorityHigh, 512);
 }
 
 void AudioPlayerPresenter::deactivate()
@@ -67,6 +76,18 @@ void AudioPlayerPresenter::presenter_tick()
       view.set_pause_state();
     } else {
       view.set_track_slider(percents_played);
+    }
+  }
+
+  static uint32_t prev_time = 0;
+  if (HAL_GetTick()> prev_time + 50) {
+    prev_time = HAL_GetTick();
+    if (xSemaphoreTake(m_fft_done_smph, 0) == pdTRUE) {
+      view.graph().clear();
+      for (auto harmonic: m_fft_thread->get_harmonics()) {
+        view.graph().addDataPoint(harmonic);
+        view.graph().invalidate();
+      }
     }
   }
 }

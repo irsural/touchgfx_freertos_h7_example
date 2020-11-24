@@ -1,7 +1,4 @@
 #include "stm32h7xx_it.h"
-#include "FreeRTOS.h"
-#include "task.h"
-
 #include "cfg.h"
 
 
@@ -43,8 +40,11 @@ void SDMMC1_IRQHandler(void)
 
 void TIM6_DAC_IRQHandler(void)
 {
-  TIM6->SR = ~TIM_IT_UPDATE;
-  HAL_IncTick();
+  if (TIM6->DIER & TIM_IT_UPDATE) {
+    TIM6->SR = ~TIM_IT_UPDATE;
+
+    HAL_IncTick();
+  }
 }
 
 void LTDC_IRQHandler(void)

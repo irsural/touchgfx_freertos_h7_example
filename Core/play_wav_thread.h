@@ -5,7 +5,7 @@
 #include "file_operations.h"
 
 #include <vector>
-#include <array>
+#include <complex>
 #include <memory>
 
 #include <touchgfx/Unicode.hpp>
@@ -52,8 +52,12 @@ public:
   void stop();
 
   play_state_t get_play_state();
+
+  void set_up_fft(SemaphoreHandle_t a_samples_ready_semph, SemaphoreHandle_t a_samples_processed_semph,
+    std::vector<std::complex<float>>* ap_fft_samples);
 private:
   static constexpr uint32_t m_audio_buffer_size = 4096;
+  static constexpr uint32_t m_audio_buffer_size_samples = m_audio_buffer_size / 2;
   // Каждые send_played_length_frequency байт будет отправляться сообщение
   static constexpr uint32_t send_played_length_frequency = 8192;
 
@@ -70,6 +74,10 @@ private:
   size_t m_bytes_read;
   double m_bytes_played_percents;
   QueueHandle_t m_percents_played_queue;
+
+  SemaphoreHandle_t m_samples_processed_semph;
+  SemaphoreHandle_t m_samples_ready_semph;
+  std::vector<std::complex<float>>* mp_fft_samples;
 
   bool open_wav_file(const std::string& a_filename);
 };

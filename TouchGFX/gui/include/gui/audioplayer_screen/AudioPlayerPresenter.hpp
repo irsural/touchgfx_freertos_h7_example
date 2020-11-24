@@ -9,6 +9,7 @@
 
 #include "read_dir_thread.h"
 #include "play_wav_thread.h"
+#include "fft_thread.h"
 
 using namespace touchgfx;
 
@@ -54,6 +55,11 @@ private:
     QueueHandle_t m_play_wav_cmd_queue;
     QueueHandle_t m_percents_played_queue;
     std::shared_ptr<play_wav_thread_t> m_play_wav_thread;
+
+    SemaphoreHandle_t m_fft_samples_ready_smph;
+    SemaphoreHandle_t m_fft_samples_processed_smph;
+    SemaphoreHandle_t m_fft_done_smph;
+    std::shared_ptr<fft_thread_t> m_fft_thread;
 };
 
 #endif // AUDIOPLAYERPRESENTER_HPP

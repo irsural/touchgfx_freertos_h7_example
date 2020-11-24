@@ -31,5 +31,7 @@ std::string unicode_to_oem866(const std::vector<touchgfx::Unicode::UnicodeChar>&
 
   conv.out(mb, a_unicode_str.data(), a_unicode_str.data() + str_len, from_next, to, to + str_len, to_next);
 
-  return to;
+  std::string oem866_string(to);
+  delete[] to;
+  return oem866_string;
 }

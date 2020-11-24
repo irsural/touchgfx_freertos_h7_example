@@ -23,7 +23,10 @@ play_wav_thread_t::play_wav_thread_t(QueueHandle_t a_cmd_queue, SemaphoreHandle_
   m_track_size(0),
   m_bytes_read(0),
   m_bytes_played_percents(0),
-  m_percents_played_queue(a_percents_played_smph)
+  m_percents_played_queue(a_percents_played_smph),
+  m_samples_processed_semph(nullptr),
+  m_samples_ready_semph(nullptr),
+  mp_fft_samples(nullptr)
 {
   dma_queue = xQueueCreate(5, sizeof(dma_callback_t));
 }
@@ -48,7 +51,7 @@ bool play_wav_thread_t::play()
 {
   bool file_opened = open_wav_file(m_wav_name);
   if (file_opened) {
-    return cfg_t::instance().audio_player.play(m_audio_buffer, m_audio_buffer_size / 2);
+    return cfg_t::instance().audio_player.play(m_audio_buffer, m_audio_buffer_size_samples);
   } else {
     return false;
   }
@@ -82,7 +85,7 @@ bool play_wav_thread_t::open_wav_file(const std::string& a_filename)
     m_file->read(m_audio_buffer, m_audio_buffer_size);
 
     m_track_size = m_file->size() - m_wav_header_size;
-    m_bytes_read = m_audio_buffer_size / 2;
+    m_bytes_read = m_audio_buffer_size_samples;
     m_bytes_played_percents = static_cast<double>(m_bytes_read) / m_track_size * 100;
 
     if (m_file->get_error() != FR_OK) {
@@ -96,12 +99,21 @@ bool play_wav_thread_t::open_wav_file(const std::string& a_filename)
   }
 }
 
+void play_wav_thread_t::set_up_fft(SemaphoreHandle_t a_samples_ready_semph, SemaphoreHandle_t a_samples_processed_semph,
+  std::vector<std::complex<float>>* ap_fft_samples)
+{
+  m_samples_ready_semph = a_samples_ready_semph;
+  m_samples_processed_semph = a_samples_processed_semph;
+  mp_fft_samples = ap_fft_samples;
 
+  assert(mp_fft_samples->size() == m_audio_buffer_size_samples / 2);
+}
 
 void play_wav_thread_t::task()
 {
   dma_callback_t dma_cb;
   cmd_t cmd = { cmd_type_t::none, 0 };
+  int miss = 0;
 
   while(1) {
     size_t queue_wait_time = m_current_cmd_type == cmd_type_t::none ? portMAX_DELAY : 0;
@@ -174,20 +186,33 @@ void play_wav_thread_t::task()
       if (xQueueReceive(dma_queue, static_cast<void*>(&dma_cb), portMAX_DELAY) == pdTRUE) {
 
         if (dma_cb == dma_callback_t::complete) {
-          m_already_read_data_pos = m_audio_buffer_size / 2;
+          m_already_read_data_pos = m_audio_buffer_size_samples;
         } else { // dma_callback_t::half_complete
           m_already_read_data_pos = 0;
         }
 
         using namespace fatfs;
-        file_t::result_t read_result = m_file->read(m_audio_buffer + m_already_read_data_pos, m_audio_buffer_size / 2);
+        file_t::result_t read_result = m_file->read(m_audio_buffer + m_already_read_data_pos, m_audio_buffer_size_samples);
 
-        m_bytes_read += m_audio_buffer_size / 2;
+        m_bytes_read += m_audio_buffer_size_samples;
         if (m_bytes_read > send_played_length_frequency) {
           m_bytes_played_percents += static_cast<double>(m_bytes_read) / m_track_size * 100;
           m_bytes_read = 0;
 
           xQueueSend(m_percents_played_queue, static_cast<void*>(&m_bytes_played_percents), 0);
+        }
+
+        if (m_samples_ready_semph != nullptr) {
+          if (xSemaphoreTake(m_samples_processed_semph, 0) == pdTRUE) {
+            int16_t* samples_buffer = reinterpret_cast<int16_t*>(m_audio_buffer + m_already_read_data_pos);
+            for(size_t i = 0, j = 0; i < m_audio_buffer_size_samples; i += 2, ++j) {
+              (*mp_fft_samples)[j] =
+                std::complex<float>(static_cast<float>(samples_buffer[i]), 0);
+            }
+            xSemaphoreGive(m_samples_ready_semph);
+          } else {
+            ++miss;
+          }
         }
 
         if(read_result != file_t::result_t::success) {
@@ -199,7 +224,7 @@ void play_wav_thread_t::task()
           m_file.reset();
           stop();
           m_play_state = play_state_t::stopped;
-
+          DBG_MSG(miss);
           xQueueSend(m_percents_played_queue, static_cast<const void*>(&eof_value), 0);
           m_current_cmd_type = cmd_type_t::none;
         }

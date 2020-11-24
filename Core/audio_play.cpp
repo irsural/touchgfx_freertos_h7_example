@@ -218,7 +218,7 @@ void audio_play_t::audio_codec_init()
 
   m_wm8994_init.Resolution  = 0;
   // По каким то причинам sr=44100 не работает в wm9884 (в примере st работает)
-  m_wm8994_init.Frequency  = 22050;//SAI_AUDIO_FREQUENCY_22K;
+  m_wm8994_init.Frequency  = 44100;//SAI_AUDIO_FREQUENCY_22K;
   m_wm8994_init.InputDevice = WM8994_IN_NONE;
   m_wm8994_init.OutputDevice = AUDIO_OUT_DEVICE_HEADPHONE;
 
