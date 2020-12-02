@@ -16,8 +16,8 @@ class fft_thread_t : public thread_base_t
 {
 public:
   using sample_t = uint16_t;
-  static constexpr size_t fft_size_samples = 32;
-  static constexpr size_t harmonics_count = fft_size_samples;
+  static constexpr size_t fft_size_samples = 128;
+  static constexpr size_t harmonics_count = 32;
 
   fft_thread_t(SemaphoreHandle_t a_samples_ready_smph, SemaphoreHandle_t a_samples_processed_smph,
     SemaphoreHandle_t a_fft_done_smph);
@@ -28,9 +28,10 @@ public:
   std::vector<std::complex<float>>* get_samlpes_buffer();
   const std::array<float, harmonics_count>& get_harmonics() { return m_harmonics; };
 private:
-  static constexpr size_t samples_buffer_size = 1024;
-  static constexpr size_t frequency_average_size = 50;
+  static constexpr size_t samples_buffer_size = 512;
+  static constexpr size_t frequency_average_size = 48;
   static_assert(samples_buffer_size % fft_size_samples == 0);
+  static constexpr size_t first_visible_harmonic = 2;
 
   SemaphoreHandle_t m_samples_ready_smph;
   SemaphoreHandle_t m_samples_processed_smph;

@@ -5,6 +5,7 @@
 #include "semphr.h"
 #include <touchgfx/hal/GPIO.hpp>
 #include <touchgfx/hal/HAL.hpp>
+#include "defs.h"
 
 using namespace touchgfx;
 
@@ -95,6 +96,7 @@ extern "C"
 
     void vApplicationMallocFailedHook(void)
     {
+      DBG_MSG("Malloc failed. Minimum ever free heap size: " << xPortGetMinimumEverFreeHeapSize());
       while (1);
     }
 

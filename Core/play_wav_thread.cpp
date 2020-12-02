@@ -106,7 +106,9 @@ void play_wav_thread_t::set_up_fft(SemaphoreHandle_t a_samples_ready_semph, Sema
   m_samples_processed_semph = a_samples_processed_semph;
   mp_fft_samples = ap_fft_samples;
 
-  assert(mp_fft_samples->size() == m_audio_buffer_size_samples / 2);
+  // За раз отправляем сэмплы из половины буффера (m_audio_buffer_size_samples байт),
+  // каждый сэмпл = 2 байта, нам нужен каждый второй сэмпл
+  assert(mp_fft_samples->size() == m_audio_buffer_size_samples / 2 / 2);
 }
 
 void play_wav_thread_t::task()
@@ -205,9 +207,8 @@ void play_wav_thread_t::task()
         if (m_samples_ready_semph != nullptr) {
           if (xSemaphoreTake(m_samples_processed_semph, 0) == pdTRUE) {
             int16_t* samples_buffer = reinterpret_cast<int16_t*>(m_audio_buffer + m_already_read_data_pos);
-            for(size_t i = 0, j = 0; i < m_audio_buffer_size_samples; i += 2, ++j) {
-              (*mp_fft_samples)[j] =
-                std::complex<float>(static_cast<float>(samples_buffer[i]), 0);
+            for(size_t i = 0, j = 0; i < m_audio_buffer_size_samples / 2; i += 2, ++j) {
+              (*mp_fft_samples)[j] = std::complex<float>(static_cast<float>(samples_buffer[i]), 0);
             }
             xSemaphoreGive(m_samples_ready_semph);
           } else {
@@ -224,7 +225,7 @@ void play_wav_thread_t::task()
           m_file.reset();
           stop();
           m_play_state = play_state_t::stopped;
-          DBG_MSG(miss);
+          DBG_MSG("miss: " << miss);
           xQueueSend(m_percents_played_queue, static_cast<const void*>(&eof_value), 0);
           m_current_cmd_type = cmd_type_t::none;
         }

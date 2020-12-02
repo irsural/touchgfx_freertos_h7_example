@@ -10,7 +10,7 @@ fft_thread_t::fft_thread_t(SemaphoreHandle_t a_samples_ready_smph, SemaphoreHand
   m_samples(samples_buffer_size),
   m_harmonics_avg(),
   m_harmonics(),
-  m_normalize_value(100)
+  m_normalize_value(2e4)
 {
   for (auto& frequency: m_harmonics_avg) {
     frequency.resize(frequency_average_size);
@@ -27,30 +27,32 @@ void fft_thread_t::task()
   xSemaphoreGive(m_samples_processed_smph);
   while(1) {
     if (xSemaphoreTake(m_samples_ready_smph, portMAX_DELAY) == pdTRUE) {
-      for (size_t sample_num = 0; sample_num < samples_buffer_size; sample_num += fft_size_samples) {
-        do_fft(sample_num, sample_num + fft_size_samples);
-      }
 
-      for (size_t sample_num = 0; sample_num < samples_buffer_size; ++sample_num) {
-        size_t harmonic_num = sample_num % fft_size_samples;
-        // Симметричная сторона и и нулевая гармоника не нужны
-//        if (harmonic_num != 0/* && harmonic_num < harmonics_count*/) {
-          m_harmonics_avg[harmonic_num].add(m_samples[harmonic_num]);
+      for (size_t samples_pack = 0; samples_pack < samples_buffer_size / fft_size_samples; samples_pack += 1) {
+
+        size_t pack_first_sample = samples_pack * fft_size_samples;
+        size_t pack_last_sample = (samples_pack + 1) * fft_size_samples;
+
+        do_fft(pack_first_sample, pack_last_sample);
+
+        for (size_t i = first_visible_harmonic; i < m_harmonics_avg.size(); ++i) {
+          m_harmonics_avg[i].add(m_samples[i + pack_first_sample]);
+        }
+      }
+      xSemaphoreGive(m_samples_processed_smph);
+
+      if (m_harmonics_avg[first_visible_harmonic].is_full()) {
+        for (size_t harmonic_num = 0; harmonic_num < harmonics_count; ++harmonic_num) {
+          float harmonic_value = abs(m_harmonics_avg[harmonic_num].get());
+
+//        if (harmonic_value * 1.1 > m_normalize_value) {
+//          m_normalize_value = harmonic_value * 1.1;
 //        }
-      }
-
-      for (size_t harmonic_num = 0; harmonic_num < harmonics_count; ++harmonic_num) {
-        float harmonic_value = abs(m_harmonics_avg[harmonic_num].get()) / m_normalize_value * 100;
-
-        if (harmonic_value * 1.5 > m_normalize_value && m_harmonics_avg[harmonic_num].is_full()) {
-          m_normalize_value = harmonic_value * 1.5;
+          m_harmonics[harmonic_num] = harmonic_value / m_normalize_value * 100;
         }
 
-        m_harmonics[harmonic_num] = harmonic_value;
+        xSemaphoreGive(m_fft_done_smph);
       }
-
-      xSemaphoreGive(m_fft_done_smph);
-      xSemaphoreGive(m_samples_processed_smph);
     }
   }
 }

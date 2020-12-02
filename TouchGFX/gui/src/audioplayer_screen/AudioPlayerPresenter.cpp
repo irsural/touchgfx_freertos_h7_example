@@ -34,7 +34,7 @@ void AudioPlayerPresenter::initialize_file_system()
   xQueueSend(m_read_folred_queue, static_cast<const void*>(&fatfs::sd::drive), portMAX_DELAY);
 
   m_fft_thread.reset(new fft_thread_t(m_fft_samples_ready_smph, m_fft_samples_processed_smph, m_fft_done_smph));
-  create_thread(*m_fft_thread.get(), "fft", osPriorityBelowNormal, 512);
+  create_thread(*m_fft_thread.get(), "fft", osPriorityBelowNormal, 1024);
 
   m_play_wav_thread.reset(new play_wav_thread_t(m_play_wav_cmd_queue, m_percents_played_queue));
   m_play_wav_thread->set_up_fft(m_fft_samples_ready_smph, m_fft_samples_processed_smph,
@@ -80,7 +80,7 @@ void AudioPlayerPresenter::presenter_tick()
   }
 
   static uint32_t prev_time = 0;
-  if (HAL_GetTick()> prev_time + 50) {
+  if (HAL_GetTick()> prev_time + 1) {
     prev_time = HAL_GetTick();
     if (xSemaphoreTake(m_fft_done_smph, 0) == pdTRUE) {
       view.graph().clear();
@@ -99,7 +99,7 @@ void AudioPlayerPresenter::start_playback(const std::vector<touchgfx::Unicode::U
   play_wav_thread_t::cmd_t cmd = { play_wav_thread_t::cmd_type_t::play, 0 };
   xQueueSend(m_play_wav_cmd_queue, static_cast<const void*>(&cmd), 0);
 
-  DBG_MSG("play " << unicode_to_oem866(a_song_name));
+//  DBG_MSG("play " << unicode_to_oem866(a_song_name));
 
   view.set_play_state();
 }
