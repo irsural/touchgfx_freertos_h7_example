@@ -26,7 +26,8 @@ play_wav_thread_t::play_wav_thread_t(QueueHandle_t a_cmd_queue, SemaphoreHandle_
   m_percents_played_queue(a_percents_played_smph),
   m_samples_processed_semph(nullptr),
   m_samples_ready_semph(nullptr),
-  mp_fft_samples(nullptr)
+  mp_fft_samples(nullptr),
+  m_next_make_fft_time(0)
 {
   dma_queue = xQueueCreate(5, sizeof(dma_callback_t));
 }
@@ -205,14 +206,18 @@ void play_wav_thread_t::task()
         }
 
         if (m_samples_ready_semph != nullptr) {
-          if (xSemaphoreTake(m_samples_processed_semph, 0) == pdTRUE) {
-            int16_t* samples_buffer = reinterpret_cast<int16_t*>(m_audio_buffer + m_already_read_data_pos);
-            for(size_t i = 0, j = 0; i < m_audio_buffer_size_samples / 2; i += 2, ++j) {
-              (*mp_fft_samples)[j] = std::complex<float>(static_cast<float>(samples_buffer[i]), 0);
+          uint32_t current_time = HAL_GetTick();
+          if (m_next_make_fft_time <= current_time) {
+            m_next_make_fft_time = current_time + make_fft_period_ms;
+            if (xSemaphoreTake(m_samples_processed_semph, 0) == pdTRUE) {
+              int16_t* samples_buffer = reinterpret_cast<int16_t*>(m_audio_buffer + m_already_read_data_pos);
+              for(size_t i = 0, j = 0; i < m_audio_buffer_size_samples / 2; i += 2, ++j) {
+                (*mp_fft_samples)[j] = std::complex<float>(static_cast<float>(samples_buffer[i]), 0);
+              }
+              xSemaphoreGive(m_samples_ready_semph);
+            } else {
+              ++miss;
             }
-            xSemaphoreGive(m_samples_ready_semph);
-          } else {
-            ++miss;
           }
         }
 
@@ -227,6 +232,7 @@ void play_wav_thread_t::task()
           m_play_state = play_state_t::stopped;
           DBG_MSG("miss: " << miss);
           xQueueSend(m_percents_played_queue, static_cast<const void*>(&eof_value), 0);
+          m_next_make_fft_time = 0;
           m_current_cmd_type = cmd_type_t::none;
         }
 

@@ -61,6 +61,8 @@ private:
   // Каждые send_played_length_frequency байт будет отправляться сообщение
   static constexpr uint32_t send_played_length_frequency = 8192;
 
+  static constexpr uint32_t make_fft_period_ms = 30;
+
   QueueHandle_t m_cmd_queue;
   std::shared_ptr<fatfs::file_t> m_file;
   cmd_type_t m_current_cmd_type;
@@ -78,6 +80,8 @@ private:
   SemaphoreHandle_t m_samples_processed_semph;
   SemaphoreHandle_t m_samples_ready_semph;
   std::vector<std::complex<float>>* mp_fft_samples;
+
+  uint32_t m_next_make_fft_time;
 
   bool open_wav_file(const std::string& a_filename);
 };

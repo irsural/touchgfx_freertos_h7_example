@@ -10,10 +10,16 @@ fft_thread_t::fft_thread_t(SemaphoreHandle_t a_samples_ready_smph, SemaphoreHand
   m_samples(samples_buffer_size),
   m_harmonics_avg(),
   m_harmonics(),
-  m_normalize_value(2e4)
+  m_frequencies { 80, 142, 212, 291, 379, 478, 589, 713, 853, 1010, 1186, 1384, 1606, 1855, 2134, 2447, 2799,
+    3194, 3637, 4134, 4692, 5318, 6020, 6808, 7693, 8685, 9799, 11049, 12452, 14026, 15793, 17775 },
+  m_normalize_value(1)
 {
   for (auto& frequency: m_harmonics_avg) {
-    frequency.resize(frequency_average_size);
+    frequency.resize(harmonics_average_size);
+  }
+  for (size_t i = 0; i < m_frequencies.size(); ++i) {
+    // Переводим частоты в гармоники БПФ
+    m_frequencies[i] = static_cast<size_t>(ceil(m_frequencies[i] / 44100. * fft_size_samples));
   }
 }
 
@@ -36,21 +42,20 @@ void fft_thread_t::task()
         do_fft(pack_first_sample, pack_last_sample);
 
         for (size_t i = first_visible_harmonic; i < m_harmonics_avg.size(); ++i) {
-          m_harmonics_avg[i].add(m_samples[i + pack_first_sample]);
+          m_harmonics_avg[i].add(m_samples[m_frequencies[i] + pack_first_sample]);
         }
       }
       xSemaphoreGive(m_samples_processed_smph);
 
       if (m_harmonics_avg[first_visible_harmonic].is_full()) {
         for (size_t harmonic_num = 0; harmonic_num < harmonics_count; ++harmonic_num) {
-          float harmonic_value = abs(m_harmonics_avg[harmonic_num].get());
+          float harmonic_value = log10(abs(m_harmonics_avg[harmonic_num].get()));
 
-//        if (harmonic_value * 1.1 > m_normalize_value) {
-//          m_normalize_value = harmonic_value * 1.1;
-//        }
+          if (harmonic_value * 1.1 > m_normalize_value) {
+            m_normalize_value = harmonic_value * 1.1;
+          }
           m_harmonics[harmonic_num] = harmonic_value / m_normalize_value * 100;
         }
-
         xSemaphoreGive(m_fft_done_smph);
       }
     }

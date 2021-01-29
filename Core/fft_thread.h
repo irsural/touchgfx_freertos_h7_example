@@ -16,7 +16,7 @@ class fft_thread_t : public thread_base_t
 {
 public:
   using sample_t = uint16_t;
-  static constexpr size_t fft_size_samples = 128;
+  static constexpr size_t fft_size_samples = 512;
   static constexpr size_t harmonics_count = 32;
 
   fft_thread_t(SemaphoreHandle_t a_samples_ready_smph, SemaphoreHandle_t a_samples_processed_smph,
@@ -29,7 +29,7 @@ public:
   const std::array<float, harmonics_count>& get_harmonics() { return m_harmonics; };
 private:
   static constexpr size_t samples_buffer_size = 512;
-  static constexpr size_t frequency_average_size = 48;
+  static constexpr size_t harmonics_average_size = 25;
   static_assert(samples_buffer_size % fft_size_samples == 0);
   static constexpr size_t first_visible_harmonic = 2;
 
@@ -41,6 +41,7 @@ private:
   // Симметричная сторона и и нулевая гармоника не нужны
   std::array<fast_average_t<std::complex<float>, std::complex<float>>, harmonics_count> m_harmonics_avg;
   std::array<float, harmonics_count> m_harmonics;
+  std::array<size_t, harmonics_count> m_frequencies;
   float m_normalize_value;
 
   void do_fft(size_t from, size_t to);
