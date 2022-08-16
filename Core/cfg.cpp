@@ -2,22 +2,36 @@
 
 #include <stm32h743i_eval_sdram.h>
 #include <stm32h743i_eval_qspi.h>
+#include <stm32h743i_eval_bus.h>
+
+#include "file_operations.h"
+
+
+cfg_initializer_t::cfg_initializer_t(cfg_t* a_cfg)
+{
+  a_cfg->gpio_init();
+  a_cfg->uart_init();
+  a_cfg->crc_init();
+  a_cfg->ltdc_init();
+  a_cfg->fmc_init();
+  a_cfg->dma2d_init();
+  a_cfg->qspi_init();
+  a_cfg->sd_init();
+}
 
 cfg_t::cfg_t() :
   m_lcd_vsync_pin_port(std::make_tuple(GPIO_PIN_10, GPIOF)),
   m_lcd_reset_pin_port(std::make_tuple(GPIO_PIN_2, GPIOF)),
   m_lcd_bl_ctrl_pin_port(std::make_tuple(GPIO_PIN_6, GPIOF)),
   m_lcd_render_time_pin_port(std::make_tuple(GPIO_PIN_4, GPIOF)),
-  m_ltd_handle{ 0 },
-  m_dma2d_handle{ 0 },
-  m_qspi_handle{ 0 }
+  m_ltd_handle{0},
+  m_dma2d_handle{0},
+  m_qspi_handle{0},
+  sd_detected(false),
+  m_uart_mutex(xSemaphoreCreateMutex()),
+  cfg_initializer(this),
+  audio_player()
 {
-  gpio_init();
-  crc_init();
-  ltdc_init();
-  fmc_init();
-  dma2d_init();
-  qspi_init();
 }
 
 void cfg_t::gpio_init()
@@ -44,12 +58,53 @@ void cfg_t::crc_init()
   hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
   hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
   hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
-  
+
   __HAL_RCC_CRC_CLK_ENABLE();
-  
+
   if (HAL_CRC_Init(&hcrc) != HAL_OK) {
     DBG_MSG("CRC init error!!");
   }
+}
+
+void cfg_t::uart_init()
+{
+  __HAL_RCC_USART1_CLK_ENABLE();
+
+  GPIO_InitTypeDef  uart_gpio;
+  uart_gpio.Pin = GPIO_PIN_14;
+  uart_gpio.Mode = GPIO_MODE_AF_PP;
+  uart_gpio.Pull = GPIO_PULLUP;
+  uart_gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  uart_gpio.Alternate = GPIO_AF4_USART1;
+  HAL_GPIO_Init(GPIOB, &uart_gpio);
+
+  m_uart_handle.Instance = USART1;
+  m_uart_handle.Init.BaudRate = 115200;
+  m_uart_handle.Init.WordLength = UART_WORDLENGTH_8B;
+  m_uart_handle.Init.StopBits = UART_STOPBITS_1;
+  m_uart_handle.Init.Parity = UART_PARITY_NONE;
+  m_uart_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  m_uart_handle.Init.Mode = UART_MODE_TX;
+  m_uart_handle.Init.OverSampling = UART_OVERSAMPLING_16;
+
+  if(HAL_UART_Init(&m_uart_handle) != HAL_OK) {
+    DBG_MSG("UART init error!!");
+  }
+}
+
+void cfg_t::uart_send_char(uint8_t a_symbol)
+{
+//  assert(xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED);
+//
+//  xSemaphoreTake(m_uart_mutex, portMAX_DELAY);
+
+  if (a_symbol == '\n') {
+    HAL_UART_Transmit(&m_uart_handle, &a_symbol, 1, 0xFFFF);
+    a_symbol = '\r';
+  }
+  HAL_UART_Transmit(&m_uart_handle, &a_symbol, 1, 0xFFFF);
+
+//  xSemaphoreGive(m_uart_mutex);
 }
 
 void cfg_t::ltdc_init()
@@ -84,8 +139,8 @@ void cfg_t::ltdc_init()
   gpio.Pull = GPIO_PULLUP;
   gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(std::get<1>(m_lcd_render_time_pin_port), &gpio);
-  
-  
+
+
   m_ltd_handle.Instance = LTDC;
   m_ltd_handle.Init.HSPolarity = LTDC_HSPOLARITY_AL;
   m_ltd_handle.Init.VSPolarity = LTDC_VSPOLARITY_AL;
@@ -105,9 +160,9 @@ void cfg_t::ltdc_init()
   if (HAL_LTDC_Init(&m_ltd_handle) != HAL_OK) {
     DBG_MSG("LTDC init error")
   }
-  
+
   LTDC_LayerCfgTypeDef pLayerCfg = {0};
-  
+
   pLayerCfg.WindowX0 = 0;
   pLayerCfg.WindowX1 = 640;
   pLayerCfg.WindowY0 = 0;
@@ -131,7 +186,7 @@ void cfg_t::ltdc_init()
 void cfg_t::fmc_init()
 {
   SDRAM_HandleTypeDef sdram_handle = { 0 };
-  
+
   sdram_handle.Instance = FMC_SDRAM_DEVICE;
   sdram_handle.Init.SDBank = FMC_SDRAM_BANK2;
   sdram_handle.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_8;
@@ -143,7 +198,7 @@ void cfg_t::fmc_init()
   sdram_handle.Init.SDClockPeriod = FMC_SDRAM_CLOCK_DISABLE;
   sdram_handle.Init.ReadBurst = FMC_SDRAM_RBURST_DISABLE;
   sdram_handle.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;
-  
+
   FMC_SDRAM_TimingTypeDef sdram_timings = {0};
   sdram_timings.LoadToActiveDelay = 16;
   sdram_timings.ExitSelfRefreshDelay = 16;
@@ -187,17 +242,17 @@ void cfg_t::qspi_init()
   m_qspi_handle.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_4_CYCLE;
   m_qspi_handle.Init.ClockMode = QSPI_CLOCK_MODE_0;
   m_qspi_handle.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
-  
+
   if (HAL_QSPI_Init(&m_qspi_handle) != HAL_OK) {
     DBG_MSG("QSPI init error 1")
   }
   BSP_QSPI_DeInit (0);
 
   BSP_QSPI_Init_t qspi_init;
-  qspi_init.InterfaceMode  = MT25TL01G_QPI_MODE;
-  qspi_init.TransferRate   = MT25TL01G_DTR_TRANSFER;
-  qspi_init.DualFlashMode  = MT25TL01G_DUALFLASH_ENABLE;
-  
+  qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
+  qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
+  qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+
   if(BSP_QSPI_Init(0,&qspi_init) != BSP_ERROR_NONE) {
     DBG_MSG("QSPI init error 2")
   }
@@ -205,6 +260,17 @@ void cfg_t::qspi_init()
     DBG_MSG("QSPI init error 3")
   }
   HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
+}
+
+void cfg_t::sd_init()
+{
+  sd_detected = false;
+
+  if(BSP_SD_Init(0) == BSP_ERROR_NONE) {
+    if (fatfs::sd::init_fs()) {
+      sd_detected = true;
+    }
+  }
 }
 
 LTDC_HandleTypeDef *cfg_t::ltdc_handle()

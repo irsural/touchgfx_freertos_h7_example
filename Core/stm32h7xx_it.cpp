@@ -1,12 +1,6 @@
 #include "stm32h7xx_it.h"
-#include "FreeRTOS.h"
-#include "task.h"
-
 #include "cfg.h"
 
-
-extern DMA2D_HandleTypeDef hdma2d;
-extern TIM_HandleTypeDef htim6;
 
 void NMI_Handler(void)
 {
@@ -39,11 +33,18 @@ void DebugMon_Handler(void)
 {
 }
 
+void SDMMC1_IRQHandler(void)
+{
+  BSP_SD_IRQHandler(0);
+}
+
 void TIM6_DAC_IRQHandler(void)
 {
-  TIM6->SR &= ~TIM_IT_UPDATE;
-  HAL_IncTick();
-  
+  if (TIM6->DIER & TIM_IT_UPDATE) {
+    TIM6->SR = ~TIM_IT_UPDATE;
+
+    HAL_IncTick();
+  }
 }
 
 void LTDC_IRQHandler(void)
@@ -54,4 +55,9 @@ void LTDC_IRQHandler(void)
 void DMA2D_IRQHandler(void)
 {
   HAL_DMA2D_IRQHandler(cfg_t::instance().dma2d_handle());
+}
+
+void DMA2_Stream6_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(cfg_t::instance().audio_player.dma_sai_handle());
 }

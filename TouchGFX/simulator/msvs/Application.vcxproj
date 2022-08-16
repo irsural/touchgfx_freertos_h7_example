@@ -19,10 +19,17 @@
     <ClCompile Include="$(ApplicationRoot)\generated\simulator\src\mainBase.cpp"/>
     <ClCompile Include="..\..\gui\src\common\FrontendApplication.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\common\FrontendApplicationBase.cpp"/>
-    <ClCompile Include="..\..\gui\src\main_screen\MainPresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\main_screen\MainView.cpp"/>
-    <ClCompile Include="..\..\generated\gui_generated\src\main_screen\MainViewBase.cpp"/>
     <ClCompile Include="..\..\gui\src\model\Model.cpp"/>
+    <ClCompile Include="..\..\gui\src\containers\TextContainer.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\TextContainerBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\audioplayer_screen\AudioPlayerPresenter.cpp"/>
+    <ClCompile Include="..\..\gui\src\audioplayer_screen\AudioPlayerView.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\audioplayer_screen\AudioPlayerViewBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\containers\ItemsListContainer.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\ItemsListContainerBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\containers\TextWithImageContainer.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\TextWithImageContainerBase.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xlsx"/>
@@ -169,10 +176,18 @@
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\common\FrontendHeapBase.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\main_screen\MainPresenter.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\main_screen\MainView.hpp"/>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\main_screen\MainViewBase.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\model\Model.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\model\ModelListener.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\common\SimConstants.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\containers\TextContainer.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\TextContainerBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\audioplayer_screen\AudioPlayerPresenter.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\audioplayer_screen\AudioPlayerView.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\audioplayer_screen\AudioPlayerViewBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\containers\ItemsListContainer.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\ItemsListContainerBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\containers\TextWithImageContainer.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\TextWithImageContainerBase.hpp"/>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(ApplicationRoot)\generated\simulator\touchgfx.rc"/>

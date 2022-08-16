@@ -23,6 +23,8 @@
 #include <TouchGFXHAL.hpp>
 #include <STM32TouchController.hpp>
 #include <stm32h7xx_hal.h>
+#include <FreeRTOS.h>
+#include <task.h>
 
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
@@ -44,10 +46,10 @@ void touchgfx_init()
 
   FrontendHeap& heap = FrontendHeap::getInstance();
   (void)heap; // we need to obtain the reference above to initialize the frontend heap.
-  
+
   hal.setFrameRateCompensation(true);
   hal.lockDMAToFrontPorch(false);
-  
+
   hal.initialize();
 }
 
@@ -59,6 +61,7 @@ void touchgfx_taskEntry()
   *
   * Note This function never returns
   */
+  FrontendHeap::getInstance().model.set_gui_task_handle(nullptr);
   hal.taskEntry();
 }
 
